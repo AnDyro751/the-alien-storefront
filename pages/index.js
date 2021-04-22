@@ -1,24 +1,33 @@
+import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import ProductsList from "../components/products/List";
 import client from "../src/client";
-
-export default function Home({products}) {
-  console.log(products)
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+export default function Home({ products, isSuccess }) {
+  const { t } = useTranslation('common')
   return (
     <div>
       <Head>
-        <title>The alien store</title>
+        <title>{t("storeName")}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {isSuccess && <ProductsList products={products} />}
     </div>
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps({ locale }) {
   const res = await client.products.list({ page: 1 });
-  console.log(res.success(), res.isFail());
+  if (res.isFail()) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
-      products: res.isFail() ? [] : res.success(),
+      products: res.success().data,
+      isSuccess: res.isSuccess(),
+      ...(await serverSideTranslations(locale, ["common"])),
     },
   };
 }
