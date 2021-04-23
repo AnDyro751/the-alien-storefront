@@ -6,21 +6,16 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 const HeadersChaneLocale = ({}) => {
   const { state, dispatch } = useContext(LocaleContext);
-  const [locale, setLocale] = useState("en");
   const router = useRouter();
+  const [locale, setLocale] = useState(router.locale);
   const { t } = useTranslation("common");
-
-
-  useEffect(() => {
-    setLocale(state.locale);
-  }, [state.locale]);
 
   const handleChange = (e) => {
     if (includes(["es", "en"], e.target.value)) {
       setLocale(e.target.value);
       setCookie("NEXT_LOCALE", e.target.value, 30);
       dispatch({ type: "UPDATE_LOCALE", payload: { locale: e.target.value } });
-      router.push(router.pathname, router.pathname, { locale: e.target.value });
+      router.replace(router.asPath, null, { locale: e.target.value });
     }
   };
 
