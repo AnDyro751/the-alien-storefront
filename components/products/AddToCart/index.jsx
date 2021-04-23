@@ -3,26 +3,74 @@ import PropTypes from "prop-types";
 import { OrderContext } from "../../../src/stores/useOrder";
 import client from "../../../src/client";
 import setCookie from "../../../src/lib/setCookie";
-import { fetchAddToCart, validResponse } from "../../../src/lib/fetchs";
-
-export default function ProductAddToCart({ text, className }) {
+import isEmpty from "lodash/isEmpty";
+import showToast from "../../../src/lib/showToast";
+import { cartFields } from "../../../src/lib/fields";
+import { getCurrentCurrency } from "../../../src/lib/helpers";
+export default function ProductAddToCart({ text, className, product }) {
   const [loading, setLoading] = useState(false);
   const { state, dispatch } = useContext(OrderContext);
   useEffect(() => {
     // console.log(state, dispatch);
   }, []);
-  const addProductToCart = async () => {
+  const handleCart = async () => {
+    if (isEmpty(state.order)) {
+      console.log("VAMOS A CREAR CARRITO");
+      createCart();
+    } else {
+      addProductToCart(state.order.attributes.token);
+    }
+  };
+
+  const addProductToCart = async (token) => {
+    console.log(product);
+    if (product.relationships) {
+      if (product.relationships.default_variant) {
+        if (product.relationships.default_variant.data) {
+          let response = await client.cart.addItem(
+            {
+              orderToken: token ? token : state.order.attributes.token,
+            },
+            {
+              variant_id: product.relationships.default_variant.data.id,
+              currency: getCurrentCurrency(state.order),
+              fields: {
+                cart: cartFields,
+              },
+            }
+          );
+          if (response.isSuccess()) {
+            dispatch({
+              type: "UPDATE_ORDER",
+              payload: response.success().data,
+            });
+            showToast("Producto agregado al carrito");
+          }
+        }
+      }
+    }
+  };
+
+  const createCart = async () => {
     try {
-      let response = await client.cart.create("", {
-        currency: "USD",
-      });
+      let response = await client.cart.create(
+        {},
+        {
+          currency: getCurrentCurrency(state.order),
+          fields: {
+            cart: cartFields,
+          },
+        }
+      );
       if (response.isSuccess()) {
         setCookie(
           "X-Spree-Order-Token",
           response.success().data.attributes.token,
           30
         );
+        // console.log(response.success().data)
         dispatch({ type: "UPDATE_ORDER", payload: response.success().data });
+        addProductToCart(response.success().data.attributes.token);
       }
     } catch (e) {
       console.log("ERROR", e);
@@ -31,7 +79,7 @@ export default function ProductAddToCart({ text, className }) {
 
   return (
     <button
-      onClick={addProductToCart}
+      onClick={handleCart}
       className={`bg-black rounded flex h-12 focus:outline-none justify-center items-center px-4 py-3 ${
         loading && "opacity-70 cursor-not-allowed"
       } ${className}`}
@@ -66,6 +114,7 @@ export default function ProductAddToCart({ text, className }) {
 
 ProductAddToCart.propTypes = {
   text: PropTypes.string.isRequired,
+  product: PropTypes.object.isRequired,
 };
 ProductAddToCart.defaultProps = {
   text: "Agregar al carrito",

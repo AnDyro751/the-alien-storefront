@@ -9,7 +9,10 @@ Router.events.on("routeChangeError", () => NProgress.done());
 import { appWithTranslation } from "next-i18next";
 import client from "../src/client";
 import getCookie from "../src/lib/getCookie";
-
+import "toastify-js/src/toastify.css";
+import { cartFields } from "../src/lib/fields";
+import { getCurrentCurrency } from "../src/lib/helpers";
+import { COOKIE_CURRENCY_NAME } from "../src/lib/apiConstants";
 function MyApp({ Component, pageProps, dataOrder }) {
   const data = dataOrder;
   return (
@@ -27,12 +30,26 @@ MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext);
   const dataOrder = await client.cart.show(
     {
-      orderToken: "HKcACepzuuODr8BHyLRgSg1619137936150",
+      orderToken: appContext
+        ? appContext.ctx
+          ? appContext.ctx.req
+            ? appContext.ctx.req.headers
+              ? getCookie(
+                  appContext.ctx.req.headers.cookie || "",
+                  "X-Spree-Order-Token"
+                )
+              : null
+            : null
+          : null
+        : null,
     },
     {
-      currency: "USD",
+      currency: getCookie(
+        appContext?.ctx?.req?.headers?.cookie,
+        COOKIE_CURRENCY_NAME
+      ),
       fields: {
-        cart: "total,item_count,display_total",
+        cart: cartFields,
       },
     }
   );
