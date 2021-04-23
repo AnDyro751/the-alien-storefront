@@ -2,17 +2,20 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import ProductsList from "../components/products/List";
 import client from "../src/client";
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import MainLayout from "../components/Layouts/Main";
 export default function Home({ products, isSuccess }) {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation("common");
   return (
-    <div>
-      <Head>
-        <title>{t("storeName")}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {isSuccess && <ProductsList products={products} />}
-    </div>
+    <MainLayout>
+      <div>
+        <Head>
+          <title>{t("storeName")}</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        {isSuccess && <ProductsList products={products} />}
+      </div>
+    </MainLayout>
   );
 }
 

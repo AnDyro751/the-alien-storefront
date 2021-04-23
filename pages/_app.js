@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps, dataOrder }) {
   return (
     <OrderContextProvider
       data={{
-        order: data ? (data.currentOrder ? data.currentOrder || {} : {}) : {},
+        order: data,
       }}
     >
       <Component {...pageProps} />
@@ -25,18 +25,9 @@ function MyApp({ Component, pageProps, dataOrder }) {
 
 MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext);
-  // console.log(appContext.ctx.req.headers);
   const dataOrder = await client.cart.show(
-    // appContext.ctx
-    //   ? appContext.ctx.req
-    //     ? appContext.ctx.req.headers
-    //       ? getCookie(appContext.ctx.req.headers.cookie, "X-Spree-Order-Token")
-    //       : null
-    //     : null
-    //   : null,
     {
       orderToken: "HKcACepzuuODr8BHyLRgSg1619137936150",
-      // currency: "USD",
     },
     {
       currency: "USD",
@@ -45,7 +36,8 @@ MyApp.getInitialProps = async (appContext) => {
       },
     }
   );
-  return { dataOrder: {}, ...appProps };
+  let order = dataOrder.isSuccess() ? dataOrder.success().data : {};
+  return { dataOrder: order, ...appProps };
 };
 
 export default appWithTranslation(MyApp);
