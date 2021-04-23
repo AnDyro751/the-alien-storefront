@@ -7,6 +7,7 @@ import HeadersChaneLocale from "../HeadersChaneLocale";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Link from "next/link";
+import Image from "next/image";
 const MainHeader = ({ transparent }) => {
   const [transparentHeader, setTransparent] = useState(transparent);
   const { t } = useTranslation("common");
@@ -20,7 +21,11 @@ const MainHeader = ({ transparent }) => {
 
   return (
     <div className={mainHeaderClass}>
-      <div className="w-2/12">{t("storeName")}</div>
+      <div className="w-2/12 relative">
+        <div className="w-14 h-14 relative">
+          <Image src="/images/logo.png" layout="fill" />
+        </div>
+      </div>
       <div className="w-6/12 flex justify-center items-center space-x-12">
         <div className="">
           <Link href={"/"}>

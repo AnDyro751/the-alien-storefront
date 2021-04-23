@@ -6,6 +6,10 @@
       "dolls": "Dolls",
       "merch": "Merch",
       "contact": "Contact"
+    },
+    "locale":{
+      "spanish": "Spanish",
+      "english": "English"
     }
   }
 }

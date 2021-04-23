@@ -1,12 +1,15 @@
 {
-    "storeName": "The alien store Mexico",
-    "header": {
-      "links": {
-        "home": "Inicio",
-        "dolls": "Muñecos",
-        "merch": "Merch",
-        "contact": "Contacto"
-      }
+  "storeName": "The alien store Mexico",
+  "header": {
+    "links": {
+      "home": "Inicio",
+      "dolls": "Muñecos",
+      "merch": "Merch",
+      "contact": "Contacto"
+    },
+    "locale": {
+      "spanish": "Español",
+      "english": "Inglés"
     }
   }
-  
+}

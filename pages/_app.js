@@ -1,6 +1,7 @@
 import App from "next/app";
 import { OrderContextProvider } from "../src/stores/useOrder";
 import "../styles/globals.css";
+import "../styles/general.css"
 import Router from "next/router";
 import NProgress from "nprogress";
 Router.events.on("routeChangeStart", () => NProgress.start());

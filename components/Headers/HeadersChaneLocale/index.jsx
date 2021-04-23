@@ -3,10 +3,13 @@ import { LocaleContext } from "../../../src/stores/useLocale";
 import includes from "lodash/includes";
 import setCookie from "../../../src/lib/setCookie";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 const HeadersChaneLocale = ({}) => {
   const { state, dispatch } = useContext(LocaleContext);
   const [locale, setLocale] = useState("en");
   const router = useRouter();
+  const { t } = useTranslation("common");
+
 
   useEffect(() => {
     setLocale(state.locale);
@@ -23,9 +26,13 @@ const HeadersChaneLocale = ({}) => {
 
   return (
     <div className="w-full">
-      <select value={locale} onChange={handleChange}>
-        <option value="es">Español</option>
-        <option value="en">Inglés</option>
+      <select
+        className="tw-select block w-full mt-1 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"
+        value={locale}
+        onChange={handleChange}
+      >
+        <option value="es">{t("header.locale.spanish")}</option>
+        <option value="en">{t("header.locale.english")}</option>
       </select>
     </div>
   );
