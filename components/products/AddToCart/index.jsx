@@ -1,15 +1,45 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
+import { OrderContext } from "../../../src/stores/useOrder";
+import client from "../../../src/client";
+import setCookie from "../../../src/lib/setCookie";
+import { fetchAddToCart, validResponse } from "../../../src/lib/fetchs";
+
 export default function ProductAddToCart({ text, className }) {
   const [loading, setLoading] = useState(false);
+  const { state, dispatch } = useContext(OrderContext);
+  useEffect(() => {
+    // console.log(state, dispatch);
+  }, []);
+  const addProductToCart = async () => {
+    try {
+      let response = await client.cart.create("", {
+        currency: "USD",
+      });
+      if (response.isSuccess()) {
+        setCookie(
+          "X-Spree-Order-Token",
+          response.success().data.attributes.token,
+          30
+        );
+        dispatch({ type: "UPDATE_ORDER", payload: response.success().data });
+      }
+    } catch (e) {
+      console.log("ERROR", e);
+    }
+  };
+
   return (
     <button
-      className={`bg-black rounded flex h-12 focus:outline-none justify-center items-center px-4 py-3 ${loading && "opacity-70 cursor-not-allowed"} ${className}`}
+      onClick={addProductToCart}
+      className={`bg-black rounded flex h-12 focus:outline-none justify-center items-center px-4 py-3 ${
+        loading && "opacity-70 cursor-not-allowed"
+      } ${className}`}
       disabled={loading}
     >
       {loading && (
         <svg
-        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -29,7 +59,7 @@ export default function ProductAddToCart({ text, className }) {
           ></path>
         </svg>
       )}
-      <span className="text-white" >{text}</span>
+      <span className="text-white">{text}</span>
     </button>
   );
 }
@@ -39,5 +69,5 @@ ProductAddToCart.propTypes = {
 };
 ProductAddToCart.defaultProps = {
   text: "Agregar al carrito",
-  className: ""
+  className: "",
 };
