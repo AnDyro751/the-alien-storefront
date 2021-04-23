@@ -1,3 +1,11 @@
 {
-    "storeName": "The alien store USA"
+  "storeName": "The alien store USA",
+  "header": {
+    "links": {
+      "home": "Home",
+      "dolls": "Dolls",
+      "merch": "Merch",
+      "contact": "Contact"
+    }
+  }
 }

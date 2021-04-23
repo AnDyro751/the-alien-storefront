@@ -8,7 +8,7 @@ import MainLayout from "../components/Layouts/Main";
 export default function Home({ products, isSuccess }) {
   const { t } = useTranslation("common");
   return (
-    <MainLayout>
+    <MainLayout transparentHeader={true}>
       <div>
         <Head>
           <title>{t("storeName")}</title>
