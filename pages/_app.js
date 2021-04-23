@@ -13,7 +13,9 @@ import "toastify-js/src/toastify.css";
 import { cartFields } from "../src/lib/fields";
 import { getCurrentCurrency } from "../src/lib/helpers";
 import { COOKIE_CURRENCY_NAME } from "../src/lib/apiConstants";
-function MyApp({ Component, pageProps, dataOrder }) {
+import { LocaleContextProvider } from "../src/stores/useLocale";
+import includes from "lodash/includes";
+function MyApp({ Component, pageProps, dataOrder, dataLocale }) {
   const data = dataOrder;
   return (
     <OrderContextProvider
@@ -21,7 +23,13 @@ function MyApp({ Component, pageProps, dataOrder }) {
         order: data,
       }}
     >
-      <Component {...pageProps} />
+      <LocaleContextProvider
+        data={{
+          locale: dataLocale,
+        }}
+      >
+        <Component {...pageProps} />
+      </LocaleContextProvider>
     </OrderContextProvider>
   );
 }
@@ -54,7 +62,39 @@ MyApp.getInitialProps = async (appContext) => {
     }
   );
   let order = dataOrder.isSuccess() ? dataOrder.success().data : {};
-  return { dataOrder: order, ...appProps };
+  let dataLocale = getLocale(appContext);
+  return { dataOrder: order, ...appProps, dataLocale };
+};
+
+const getLocale = (appCtx) => {
+  if (appCtx) {
+    if (appCtx.ctx) {
+      if (appCtx.ctx.req) {
+        if (appCtx.ctx.req.headers) {
+          if (appCtx.ctx.req.headers.cookie) {
+            const cookieLocale = getCookie(
+              appCtx.ctx.req.headers.cookie || "",
+              "NEXT_LOCALE"
+            );
+            if (includes(["en", "es"], cookieLocale)) {
+              return cookieLocale;
+            } else {
+              return "en";
+            }
+          } else {
+            return "en";
+          }
+        } else {
+          return "en";
+        }
+      } else {
+        return "en";
+      }
+    } else {
+      return "en";
+    }
+  }
+  return "en";
 };
 
 export default appWithTranslation(MyApp);
