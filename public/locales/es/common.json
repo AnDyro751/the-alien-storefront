@@ -1,3 +1,12 @@
 {
-    "storeName": "The alien store Mexico"
-}
+    "storeName": "The alien store Mexico",
+    "header": {
+      "links": {
+        "home": "Inicio",
+        "dolls": "Muñecos",
+        "merch": "Merch",
+        "contact": "Contacto"
+      }
+    }
+  }
+  
