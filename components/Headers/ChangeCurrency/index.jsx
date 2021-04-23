@@ -8,12 +8,18 @@ import {
 import showToast from "../../../src/lib/showToast";
 import setCookie from "../../../src/lib/setCookie";
 import { getCurrentCurrency } from "../../../src/lib/helpers";
+import { useRouter } from "next/router";
+
 const HeadersChangeCurrency = ({}) => {
+  const router = useRouter();
+
   const { state, dispatch } = useContext(OrderContext);
 
   const [currentCurrency, setCurrentCurrency] = useState("USD");
   useEffect(() => {
-    if (!isEmpty(state.order)) {
+    if (isEmpty(state.order)) {
+      setCurrentCurrency(getCurrentCurrency({}, document.cookie));
+    } else {
       setCurrentCurrency(state.order?.attributes?.currency || "USD");
     }
   }, [state.order]);
@@ -27,12 +33,14 @@ const HeadersChangeCurrency = ({}) => {
     console.log(state.order);
     if (isEmpty(state.order)) {
       setCookie(COOKIE_CURRENCY_NAME, newCurrency.toUpperCase(), 30);
+      router.replace(router.asPath);
     } else {
       try {
         let response = await (
           await fetch(
             `${WEB_ENDPOINT}/change_currency.json?switch_to_currency=${newCurrency}&currency=${getCurrentCurrency(
-              state.order
+              state.order,
+              document.cookie
             )}`,
             {
               headers: {
@@ -49,6 +57,7 @@ const HeadersChangeCurrency = ({}) => {
             attributes: { ...state.order.attributes, currency: newCurrency },
           },
         });
+        router.replace(router.asPath);
         console.log(response, "RR");
       } catch (error) {
         console.log(error);

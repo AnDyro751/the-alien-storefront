@@ -33,7 +33,7 @@ export default function ProductAddToCart({ text, className, product }) {
             },
             {
               variant_id: product.relationships.default_variant.data.id,
-              currency: getCurrentCurrency(state.order),
+              currency: getCurrentCurrency(state.order,document.cookie),
               fields: {
                 cart: cartFields,
               },
@@ -56,7 +56,7 @@ export default function ProductAddToCart({ text, className, product }) {
       let response = await client.cart.create(
         {},
         {
-          currency: getCurrentCurrency(state.order),
+          currency: getCurrentCurrency(state.order,document.cookie),
           fields: {
             cart: cartFields,
           },
