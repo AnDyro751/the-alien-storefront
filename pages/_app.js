@@ -45,7 +45,7 @@ MyApp.getInitialProps = async (appContext) => {
     },
     {
       currency: getCookie(
-        appContext?.ctx?.req?.headers?.cookie,
+        appContext?.ctx?.req?.headers?.cookie || "",
         COOKIE_CURRENCY_NAME
       ),
       fields: {
