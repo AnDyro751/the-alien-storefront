@@ -2,6 +2,7 @@ import MainHeader from "../../Headers/Main";
 import PropTypes from "prop-types";
 import { NextSeo } from "next-seo";
 import { useTranslation } from "next-i18next";
+import Footer from "../../Footer";
 function MainLayout({ children, transparentHeader }) {
   const { t } = useTranslation("common");
 
@@ -12,6 +13,7 @@ function MainLayout({ children, transparentHeader }) {
         <MainHeader transparent={transparentHeader} />
         {children}
       </div>
+      <Footer />
     </>
   );
 }

@@ -9,6 +9,7 @@ import classnames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
 import { BiCart, BiSearch } from "react-icons/bi";
+import HeaderChangeOptions from "../../HeaderChangeOptions";
 const MainHeader = ({ transparent }) => {
   const [transparentHeader, setTransparent] = useState(transparent);
   const { t } = useTranslation("common");
@@ -78,22 +79,22 @@ const MainHeader = ({ transparent }) => {
         </div>
       </div>
       <div className="w-2/12 flex justify-end items-center space-x-3">
-        {/* <div className="w-1/3">
-          <HeadersChangeCurrency />
+        <div className="w-1/3 flex items-center justify-center">
+          <HeaderChangeOptions />
         </div>
-        <div className="w-1/3">
-          <HeadersChaneLocale />
-        </div> */}
-        <div className="w-1/2 flex items-center justify-center">
+        <div className="w-1/3 flex items-center justify-center">
           <Link href="/search">
-            <a className="flex p-2" title={`${t("header.search_in_site")}`} >
+            <a className="flex p-2" title={`${t("header.search_in_site")}`}>
               <BiSearch size={20} />
             </a>
           </Link>
         </div>
-        <div className="w-1/2 ">
+        <div className="w-1/3 ">
           <Link href="/">
-            <a className="flex items-center justify-center" title={`${t("header.cart")}`}>
+            <a
+              className="flex items-center p-2 justify-center"
+              title={`${t("header.cart")}`}
+            >
               <BiCart size={20} />
               &#160;&#160;({!isEmpty(order) ? order.attributes.item_count : 0})
             </a>
