@@ -3,13 +3,15 @@
   "storeDescription": "Alien Store | Lil Mayo",
   "select": "Select",
   "header": {
+    "search_in_site": "Search in site",
+    "cart": "Cart",
     "links": {
       "home": "Home",
       "dolls": "Dolls",
       "merch": "Merch",
       "contact": "Contact"
     },
-    "locale":{
+    "locale": {
       "spanish": "Spanish",
       "english": "English"
     }

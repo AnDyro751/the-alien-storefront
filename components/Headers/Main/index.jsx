@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
+import { BiCart, BiSearch } from "react-icons/bi";
 const MainHeader = ({ transparent }) => {
   const [transparentHeader, setTransparent] = useState(transparent);
   const { t } = useTranslation("common");
@@ -23,10 +24,18 @@ const MainHeader = ({ transparent }) => {
     <div className={mainHeaderClass}>
       <div className="w-2/12 relative">
         <div className="w-14 h-14 relative">
-          <Image src="/images/logo.png" layout="fill" />
+          <Link href={"/"}>
+            <a title={t("storeName")}>
+              <Image
+                src="/images/logo.png"
+                layout="fill"
+                alt={`${t("storeName")} logo`}
+              />
+            </a>
+          </Link>
         </div>
       </div>
-      <div className="w-6/12 flex justify-center items-center space-x-12">
+      <div className="w-8/12 flex justify-center items-center space-x-12">
         <div className="">
           <Link href={"/"}>
             <a
@@ -68,15 +77,27 @@ const MainHeader = ({ transparent }) => {
           </Link>
         </div>
       </div>
-      <div className="w-4/12 flex justify-end items-center space-x-3">
-        <div className="w-1/3">
+      <div className="w-2/12 flex justify-end items-center space-x-3">
+        {/* <div className="w-1/3">
           <HeadersChangeCurrency />
         </div>
         <div className="w-1/3">
           <HeadersChaneLocale />
+        </div> */}
+        <div className="w-1/2 flex items-center justify-center">
+          <Link href="/search">
+            <a className="flex p-2" title={`${t("header.search_in_site")}`} >
+              <BiSearch size={20} />
+            </a>
+          </Link>
         </div>
-        <div className="w-1/3">
-          Carrito ({!isEmpty(order) ? order.attributes.item_count : 0})
+        <div className="w-1/2 ">
+          <Link href="/">
+            <a className="flex items-center justify-center" title={`${t("header.cart")}`}>
+              <BiCart size={20} />
+              &#160;&#160;({!isEmpty(order) ? order.attributes.item_count : 0})
+            </a>
+          </Link>
         </div>
       </div>
     </div>

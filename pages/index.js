@@ -5,6 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
 import MainLayout from "../components/Layouts/Main";
+import HomeBanner from "../components/HomeBanner";
 export default function Home({ products, isSuccess }) {
   const { t } = useTranslation("common");
   return (
@@ -14,6 +15,7 @@ export default function Home({ products, isSuccess }) {
           <title>{t("storeName")}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
+        <HomeBanner />
         {isSuccess && <ProductsList products={products} />}
       </div>
     </MainLayout>

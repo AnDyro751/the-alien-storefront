@@ -3,6 +3,8 @@
   "storeDescription": "Alien Store | Lil Mayo",
   "select": "Seleccionar",
   "header": {
+    "search_in_site": "Buscar en el sitio",
+    "cart": "Carrito",
     "links": {
       "home": "Inicio",
       "dolls": "Muñecos",
