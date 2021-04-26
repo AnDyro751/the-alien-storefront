@@ -1,6 +1,5 @@
 import { BiWorld } from "react-icons/bi";
-import { Popover, Transition } from "@headlessui/react";
-// import { Fragment, useEffect, useRef, useState } from "react";
+import { Popover } from "@headlessui/react";
 import HeadersChangeCurrency from "../Headers/ChangeCurrency";
 import HeadersChaneLocale from "../Headers/HeadersChaneLocale";
 const HeaderChangeOptions = () => {

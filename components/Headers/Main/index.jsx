@@ -1,17 +1,17 @@
 import { useTranslation } from "next-i18next";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { OrderContext } from "../../../src/stores/useOrder";
 import isEmpty from "lodash/isEmpty";
-import HeadersChangeCurrency from "../ChangeCurrency";
-import HeadersChaneLocale from "../HeadersChaneLocale";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Link from "next/link";
 import Image from "next/image";
 import { BiCart, BiSearch } from "react-icons/bi";
-import HeaderChangeOptions from "../../HeaderChangeOptions";
+import dynamic from "next/dynamic";
+const HeaderChangeOptions = dynamic(() => import("../../HeaderChangeOptions"), {
+  ssr: false,
+});
 const MainHeader = ({ transparent }) => {
-  const [transparentHeader, setTransparent] = useState(transparent);
   const { t } = useTranslation("common");
   const { state, dispatch } = useContext(OrderContext);
   let { order } = state;
