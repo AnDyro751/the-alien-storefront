@@ -9,7 +9,9 @@ const PageProductShow = ({ product }) => {
   console.log(product);
   return (
     <MainLayout transparentHeader={false}>
-      <MainProduct product={product} />
+      <div className="w-11/12 mx-auto">
+        <MainProduct product={product} />
+      </div>
     </MainLayout>
   );
 };
