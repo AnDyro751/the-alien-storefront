@@ -1,5 +1,7 @@
 {
   "storeName": "The alien store Mexico",
+  "storeDescription": "Alien Store | Lil Mayo",
+  "select": "Seleccionar",
   "header": {
     "links": {
       "home": "Inicio",

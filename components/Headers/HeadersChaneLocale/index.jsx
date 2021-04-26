@@ -26,6 +26,7 @@ const HeadersChaneLocale = ({}) => {
         value={locale}
         onChange={handleChange}
       >
+        <option disabled>{t("select")}</option>
         <option value="es">{t("header.locale.spanish")}</option>
         <option value="en">{t("header.locale.english")}</option>
       </select>
