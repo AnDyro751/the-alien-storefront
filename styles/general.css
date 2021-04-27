@@ -263,3 +263,24 @@
 .ais-SearchBox-submit {
   display: none;
 }
+
+.main-shadow::before {
+  /* border: 1px solid white; */
+  background: none;
+  border: 2px solid #fff;
+  content: "";
+  display: block;
+  position: absolute;
+  margin-left: -8px;
+  border-radius: 6px;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  top: -10px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.main-shadow:hover{
+  background-color: #f7c28d;
+}
