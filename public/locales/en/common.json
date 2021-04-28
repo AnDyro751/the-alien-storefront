@@ -15,5 +15,9 @@
       "spanish": "Spanish",
       "english": "English"
     }
+  },
+  "texts":{
+    "buy_now": "Buy Now",
+    "add_to_cart": "Add to cart"
   }
 }

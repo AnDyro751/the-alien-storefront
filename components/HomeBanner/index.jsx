@@ -1,6 +1,10 @@
 import Image from "next/image";
 import ComponentButton from "../Button";
+import { useTranslation } from "next-i18next";
+
 const HomeBanner = () => {
+  const { t } = useTranslation("common");
+
   return (
     <div className="w-full h-screen relative mx-auto">
       <div className="w-full h-screen bg-black z-10 opacity-50 absolute left-0 right-0 top-0 bottom-0"></div>
@@ -13,7 +17,11 @@ const HomeBanner = () => {
               <br />
               Worlwide shipping
             </h2>
-            <ComponentButton text="BUY NOW" href="/" />
+            <ComponentButton
+              text={`${t("texts.buy_now")}`}
+              className="uppercase"
+              href="/"
+            />
           </div>
         </div>
       </div>
