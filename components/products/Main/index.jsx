@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import SelectProductQuantity from "../../SelectProductQuantity/index.jsx";
 import { useMemo, useState } from "react";
 import getVariants from "../../../src/lib/getVariants.js";
+import SelectProductOptionTypes from "../../SelectProductOptionTypes/index.jsx";
 
 const MainProduct = ({ product, data }) => {
   const { t } = useTranslation("common");
@@ -46,7 +47,7 @@ const MainProduct = ({ product, data }) => {
               </span>
             )}
           </h2>
-          {/* <SelectProductOptionTypes /> */}
+          <SelectProductOptionTypes optionTypes={optionTypes} />
           {<h2>OptionTypes: {optionTypes.length}</h2>}
           {<h2>Variantes: {variants.length}</h2>}
           {product.attributes.description && (

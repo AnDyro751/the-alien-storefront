@@ -24,10 +24,15 @@ export async function getServerSideProps({ req, locale, query }) {
   let response = await client.products.show(query.slug, {
     currency: getCurrentCurrency({}, req.headers.cookie || ""),
     include:
-      "default_variant,variants,option_types,product_properties,taxons,images",
+      "default_variant,variants,option_types.option_values,product_properties,images",
     fields: {
+      option_value: "name,presentation",
+      option_type: "name,presentation",
+      image: "styles",
+      variant:
+        "sku,purchasable,currency,display_price,display_compare_at_price",
       product:
-        "name,description,available_on,slug,meta_description,meta_keywords,updated_at,purchasable,in_stock,backorderable,available,currency,price,display_price,compare_at_price,display_compare_at_price",
+        "name,description,slug,meta_description,meta_keywords,purchasable,currency,display_price,display_compare_at_price",
     },
     locale: getLocale(locale),
   });
