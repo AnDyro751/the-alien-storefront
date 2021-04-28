@@ -3,9 +3,8 @@ import Breadcrumbs from "../../Breadcrumbs/index.jsx";
 import ProductGallery from "../../ProductGallery/index.jsx";
 import { useTranslation } from "next-i18next";
 import SelectProductQuantity from "../../SelectProductQuantity/index.jsx";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import getVariants from "../../../src/lib/getVariants.js";
-import SelectProductOptionTypes from "../../SelectProductOptionTypes/index.jsx";
 import SelectProductVariant from "../../SelectProductVariant/index.jsx";
 
 const MainProduct = ({ product, data }) => {
@@ -24,10 +23,10 @@ const MainProduct = ({ product, data }) => {
   }, [data]);
 
   const onHandleSelectVariant = (variant) => {
-    console.log(variant)
+    // console.log(variant.attributes.display_price);
+    setCurrentPrice(variant);
     setCurrentVariant(variant);
   };
-  
 
   return (
     <>
@@ -47,11 +46,11 @@ const MainProduct = ({ product, data }) => {
         <div className="w-6/12">
           <h1 className="text-5xl mb-6 font-bold">{product.attributes.name}</h1>
           <h2 className="text-3xl mb-6 font-bold text-gray-800 flex items-center">
-            {currentPrice.attributes?.currency}{" "}
-            {currentPrice.attributes?.display_price}
-            {currentPrice.attributes?.display_compare_at_price && (
+            {currentPrice?.attributes?.currency}{" "}
+            {currentPrice?.attributes?.display_price}
+            {currentPrice?.attributes?.display_compare_at_price && (
               <span className="ml-4 text-2xl text-red-700 line-through select-none">
-                {currentPrice.attributes?.display_compare_at_price}
+                {currentPrice?.attributes?.display_compare_at_price}
               </span>
             )}
           </h2>

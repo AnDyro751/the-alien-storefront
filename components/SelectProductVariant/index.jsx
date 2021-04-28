@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 const SelectProductVariant = ({ variants, handleSelectVariant }) => {
-  const [currentVariant, setCurrentVariant] = useState({});
+  const [currentVariant, setCurrentVariant] = useState(variants[0]);
 
-  useMemo(() => {
-    setCurrentVariant(variants[0]);
+  useEffect(() => {
+    // setCurrentVariant(variants[0]);
     handleSelectVariant(variants[0]);
   }, []);
 
@@ -13,8 +13,12 @@ const SelectProductVariant = ({ variants, handleSelectVariant }) => {
     handleSelectVariant(variant);
   };
 
+  if (variants.length <= 0) {
+    return null;
+  }
   return (
     <div className="w-full space-y-3 mb-4">
+      <p className="text-sm text-gray-600">Selecciona una variante</p>
       {variants.map((variant, i) => (
         <Variant
           variant={variant}
