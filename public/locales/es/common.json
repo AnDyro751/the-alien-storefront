@@ -15,5 +15,15 @@
       "spanish": "Español",
       "english": "Inglés"
     }
+  },
+  "texts": {
+    "buy_now": "Comprar ahora",
+    "add_to_cart": "Agregar al carrito",
+    "quantity": "Cantidad"
+  },
+  "breadcrumbs": {
+    "home": "Inicio",
+    "products": "Productos",
+    "categories": "Categorías"
   }
 }

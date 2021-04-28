@@ -16,8 +16,14 @@
       "english": "English"
     }
   },
-  "texts":{
+  "texts": {
     "buy_now": "Buy Now",
-    "add_to_cart": "Add to cart"
+    "add_to_cart": "Add to cart",
+    "quantity": "Quantity"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories"
   }
 }

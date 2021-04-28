@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { OrderContext } from "../../../src/stores/useOrder";
 import client from "../../../src/client";
@@ -10,9 +10,7 @@ import { getCurrentCurrency } from "../../../src/lib/helpers";
 export default function ProductAddToCart({ text, className, product }) {
   const [loading, setLoading] = useState(false);
   const { state, dispatch } = useContext(OrderContext);
-  useEffect(() => {
-    // console.log(state, dispatch);
-  }, []);
+
   const handleCart = async () => {
     if (isEmpty(state.order)) {
       console.log("VAMOS A CREAR CARRITO");
@@ -33,7 +31,7 @@ export default function ProductAddToCart({ text, className, product }) {
             },
             {
               variant_id: product.relationships.default_variant.data.id,
-              currency: getCurrentCurrency(state.order,document.cookie),
+              currency: getCurrentCurrency(state.order, document.cookie),
               fields: {
                 cart: cartFields,
               },
@@ -56,7 +54,7 @@ export default function ProductAddToCart({ text, className, product }) {
       let response = await client.cart.create(
         {},
         {
-          currency: getCurrentCurrency(state.order,document.cookie),
+          currency: getCurrentCurrency(state.order, document.cookie),
           fields: {
             cart: cartFields,
           },

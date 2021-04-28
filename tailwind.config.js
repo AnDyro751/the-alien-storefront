@@ -7,6 +7,9 @@ module.exports = {
         ...theme("colors"),
         secondary: "#fbd0a5",
       }),
+      height: {
+        xxl: "30em",
+      },
     },
   },
   variants: {

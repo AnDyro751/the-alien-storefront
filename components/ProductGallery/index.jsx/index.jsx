@@ -1,6 +1,6 @@
 const ProductGallery = ({})  => {
     return(
-        <div className="w-full bg-gray-100 rounded h-full animate-pulse" >
+        <div className="w-full bg-gray-200 shadow-sm rounded h-xxl animate-pulse" >
             
         </div>
     )
