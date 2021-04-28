@@ -23,14 +23,11 @@ export async function getServerSideProps({ req, locale, query }) {
   // console.log(query.slug);
   let response = await client.products.show(query.slug, {
     currency: getCurrentCurrency({}, req.headers.cookie || ""),
-    include:
-      "default_variant,variants,option_types.option_values,product_properties,images",
+    include: "default_variant,variants,product_properties,images",
     fields: {
-      option_value: "name,presentation",
-      option_type: "name,presentation",
       image: "styles",
       variant:
-        "sku,purchasable,currency,display_price,display_compare_at_price",
+        "sku,purchasable,currency,display_price,display_compare_at_price,options_text",
       product:
         "name,description,slug,meta_description,meta_keywords,purchasable,currency,display_price,display_compare_at_price",
     },

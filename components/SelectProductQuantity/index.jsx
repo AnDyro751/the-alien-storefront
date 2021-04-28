@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductAddToCart from "../products/AddToCart";
 import { useTranslation } from "next-i18next";
-
-const SelectProductQuantity = ({ product }) => {
+import isEmpty from "lodash/isEmpty";
+const SelectProductQuantity = ({ product, variant = {} }) => {
   const [quantity, setQuantity] = useState(1);
   const { t } = useTranslation("common");
 
@@ -27,6 +27,8 @@ const SelectProductQuantity = ({ product }) => {
         </div>
         <div className="w-1/2">
           <ProductAddToCart
+            disabled={isEmpty(variant) ? true : !variant.purchasable}
+            variant={variant}
             text={t("texts.add_to_cart")}
             className="w-full"
             product={product}

@@ -6,6 +6,7 @@ import SelectProductQuantity from "../../SelectProductQuantity/index.jsx";
 import { useMemo, useState } from "react";
 import getVariants from "../../../src/lib/getVariants.js";
 import SelectProductOptionTypes from "../../SelectProductOptionTypes/index.jsx";
+import SelectProductVariant from "../../SelectProductVariant/index.jsx";
 
 const MainProduct = ({ product, data }) => {
   const { t } = useTranslation("common");
@@ -15,11 +16,18 @@ const MainProduct = ({ product, data }) => {
   const [optionTypes, setOptionTypes] = useState(
     getVariants(data.included || [], "option_type")
   );
+  const [currentVariant, setCurrentVariant] = useState({});
 
   // Set current variant
   useMemo(() => {
     setCurrentPrice(allVariants.length > 0 ? allVariants[0] : product);
   }, [data]);
+
+  const onHandleSelectVariant = (variant) => {
+    console.log(variant)
+    setCurrentVariant(variant);
+  };
+  
 
   return (
     <>
@@ -47,16 +55,18 @@ const MainProduct = ({ product, data }) => {
               </span>
             )}
           </h2>
-          <SelectProductOptionTypes optionTypes={optionTypes} />
-          {<h2>OptionTypes: {optionTypes.length}</h2>}
-          {<h2>Variantes: {variants.length}</h2>}
+          <SelectProductVariant
+            handleSelectVariant={onHandleSelectVariant}
+            variants={variants}
+          />
+          {/* <SelectProductOptionTypes optionTypes={optionTypes} /> */}
           {product.attributes.description && (
             <h3 className="text-gray-800 font-normal">
               {product.attributes.description}
             </h3>
           )}
           <div className="w-full">
-            <SelectProductQuantity product={product} />
+            <SelectProductQuantity variant={currentVariant} product={product} />
           </div>
         </div>
       </div>

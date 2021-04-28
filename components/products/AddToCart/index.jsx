@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { OrderContext } from "../../../src/stores/useOrder";
 import client from "../../../src/client";
@@ -7,11 +7,18 @@ import isEmpty from "lodash/isEmpty";
 import showToast from "../../../src/lib/showToast";
 import { cartFields } from "../../../src/lib/fields";
 import { getCurrentCurrency } from "../../../src/lib/helpers";
-export default function ProductAddToCart({ text, className, product }) {
+export default function ProductAddToCart({
+  text,
+  className,
+  product,
+  variant,
+}) {
   const [loading, setLoading] = useState(false);
+
   const { state, dispatch } = useContext(OrderContext);
 
   const handleCart = async () => {
+    setLoading(true);
     if (isEmpty(state.order)) {
       console.log("VAMOS A CREAR CARRITO");
       createCart();
@@ -21,31 +28,32 @@ export default function ProductAddToCart({ text, className, product }) {
   };
 
   const addProductToCart = async (token) => {
-    console.log(product);
-    if (product.relationships) {
-      if (product.relationships.default_variant) {
-        if (product.relationships.default_variant.data) {
-          let response = await client.cart.addItem(
-            {
-              orderToken: token ? token : state.order.attributes.token,
-            },
-            {
-              variant_id: product.relationships.default_variant.data.id,
-              currency: getCurrentCurrency(state.order, document.cookie),
-              fields: {
-                cart: cartFields,
-              },
-            }
-          );
-          if (response.isSuccess()) {
-            dispatch({
-              type: "UPDATE_ORDER",
-              payload: response.success().data,
-            });
-            showToast("Producto agregado al carrito");
-          }
+    if (!isEmpty(variant)) {
+      let response = await client.cart.addItem(
+        {
+          orderToken: token ? token : state.order.attributes.token,
+        },
+        {
+          variant_id: variant.id,
+          currency: getCurrentCurrency(state.order, document.cookie),
+          fields: {
+            cart: cartFields,
+          },
         }
+      );
+      if (response.isSuccess()) {
+        dispatch({
+          type: "UPDATE_ORDER",
+          payload: response.success().data,
+        });
+        showToast("Producto agregado al carrito");
+      } else {
+        showToast("Ha ocurrido un error al agregar al carrito");
       }
+      setLoading(false);
+    } else {
+      setLoading(false);
+      showToast("Selecciona una variante");
     }
   };
 
@@ -69,8 +77,10 @@ export default function ProductAddToCart({ text, className, product }) {
         // console.log(response.success().data)
         dispatch({ type: "UPDATE_ORDER", payload: response.success().data });
         addProductToCart(response.success().data.attributes.token);
+        setLoading(false);
       }
     } catch (e) {
+      setLoading(false);
       console.log("ERROR", e);
     }
   };
