@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import client from "../../src/client";
 import MainProduct from "../../components/products/Main";
 import { getCurrentCurrency } from "../../src/lib/helpers";
+import getLocale from "../../src/lib/getLocale";
 
 const PageProductShow = ({ product, data }) => {
   console.log(product, data);
@@ -28,6 +29,7 @@ export async function getServerSideProps({ req, locale, query }) {
       product:
         "name,description,available_on,slug,meta_description,meta_keywords,updated_at,purchasable,in_stock,backorderable,available,currency,price,display_price,compare_at_price,display_compare_at_price",
     },
+    locale: getLocale(locale),
   });
   if (response.isFail()) {
     return {

@@ -11,17 +11,14 @@ const MainProduct = ({ product, data }) => {
   const allVariants = getVariants(data.included || [], "variant");
   const [variants, setVariants] = useState(allVariants);
   const [currentPrice, setCurrentPrice] = useState({});
+  const [optionTypes, setOptionTypes] = useState(
+    getVariants(data.included || [], "option_type")
+  );
 
+  // Set current variant
   useMemo(() => {
-    if (allVariants.length > 0) {
-      console.log("D", allVariants[0])
-      // setCurrentPrice(product);
-      setCurrentPrice(allVariants[0]);
-    } else {
-      console.log("2")
-      setCurrentPrice(product);
-    }
-  }, []);
+    setCurrentPrice(allVariants.length > 0 ? allVariants[0] : product);
+  }, [data]);
 
   return (
     <>
@@ -49,6 +46,8 @@ const MainProduct = ({ product, data }) => {
               </span>
             )}
           </h2>
+          {/* <SelectProductOptionTypes /> */}
+          {<h2>OptionTypes: {optionTypes.length}</h2>}
           {<h2>Variantes: {variants.length}</h2>}
           {product.attributes.description && (
             <h3 className="text-gray-800 font-normal">
