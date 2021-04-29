@@ -41,7 +41,7 @@ const MainProduct = ({ product, data }) => {
       </div>
       <div className="w-full flex mt-10 space-x-8">
         <div className="w-6/12">
-          <ProductGallery />
+          <ProductGallery images={getVariants(data.included || [], "image")} />
         </div>
         <div className="w-6/12">
           <h1 className="text-5xl mb-6 font-bold">{product.attributes.name}</h1>
