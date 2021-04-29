@@ -7,8 +7,10 @@ const ProductGallery = ({ images }) => {
   const [currentImage, setCurrentImage] = useState(images[0]);
 
   const handleClick = (image) => {
-    setCurrentImage(image);
-    showLoader();
+    if (image.id != currentImage.id) {
+      setCurrentImage(image);
+      showLoader();
+    }
   };
 
   const showLoader = () => {
@@ -39,7 +41,7 @@ const ProductGallery = ({ images }) => {
       } else {
         setCurrentImage(images[0]);
       }
-    }else{
+    } else {
       setCurrentImage(images[0]);
     }
   };
