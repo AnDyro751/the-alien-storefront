@@ -26,7 +26,10 @@
     "react-dom": "17.0.2",
     "react-icons": "^4.2.0",
     "react-instantsearch-dom": "^6.10.3",
-    "toastify-js": "^1.10.0"
+    "react-responsive-carousel": "^3.2.18",
+    "react-slideshow-image": "^3.4.6",
+    "toastify-js": "^1.10.0",
+    "vanilla-lazyload": "^17.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",

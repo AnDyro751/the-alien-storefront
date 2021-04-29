@@ -1,12 +1,22 @@
+/**
+ * Copyright (c) 2021 Angel Mendez - Anture
+ * 
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
 import PropTypes from "prop-types";
 import Breadcrumbs from "../../Breadcrumbs/index.jsx";
-import ProductGallery from "../../ProductGallery/index.jsx";
 import { useTranslation } from "next-i18next";
 import SelectProductQuantity from "../../SelectProductQuantity/index.jsx";
 import { useEffect, useMemo, useState } from "react";
 import getVariants from "../../../src/lib/getVariants.js";
 import SelectProductVariant from "../../SelectProductVariant/index.jsx";
-
+import SocialShare from "../../SocialShare/index.jsx";
+import dynamic from 'next/dynamic';
+import ShippingInfo from "../../ShippingInfo/index.jsx";
+// import ProductGallery from "../../ProductGallery/index.jsx";
+const ProductGallery = dynamic(()=> import("../../ProductGallery/index.jsx"))
 const MainProduct = ({ product, data }) => {
   const { t } = useTranslation("common");
   const allVariants = getVariants(data.included || [], "variant");
@@ -39,7 +49,7 @@ const MainProduct = ({ product, data }) => {
           ]}
         />
       </div>
-      <div className="w-full flex mt-10 space-x-8">
+      <div className="w-full flex mt-10 space-x-12">
         <div className="w-6/12">
           <ProductGallery images={getVariants(data.included || [], "image")} />
         </div>
@@ -64,9 +74,9 @@ const MainProduct = ({ product, data }) => {
               {product.attributes.description}
             </h3>
           )}
-          <div className="w-full">
-            <SelectProductQuantity variant={currentVariant} product={product} />
-          </div>
+          <SelectProductQuantity variant={currentVariant} product={product} />
+          <SocialShare />
+          <ShippingInfo />
         </div>
       </div>
     </>

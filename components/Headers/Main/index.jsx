@@ -24,17 +24,18 @@ const MainHeader = ({ transparent }) => {
   return (
     <div className={mainHeaderClass}>
       <div className="w-2/12 relative">
-        <div className="w-14 h-14 relative">
-          <Link href={"/"}>
-            <a title={t("storeName")}>
+          {/* <Link href={"/"}> */}
+            <div className="relative w-14 h-14" title={t("storeName")}>
               <Image
-                src="/images/logo.png"
+                src="/v1619713027/logo_dbptcg.png"
                 layout="fill"
+                objectFit="cover"
+                className="w-14 h-14"
+                quality={30}
                 alt={`${t("storeName")} logo`}
               />
-            </a>
-          </Link>
-        </div>
+            </div>
+          {/* </Link> */}
       </div>
       <div className="w-8/12 flex justify-center items-center space-x-12">
         <div className="">

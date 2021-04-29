@@ -8,7 +8,8 @@ const nextConfig = {
   images: {
     path: "https://res-1.cloudinary.com/healthbox/image/upload",
     // domains: ["localhost", "localhost:3001"],
-    loader: "cloudinary"
+    loader: "cloudinary",
+    deviceSizes: [82, 110, 140, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
   },
 };
 module.exports = nextConfig

@@ -4,7 +4,7 @@ import { makeClient } from "@spree/storefront-api-v2-sdk";
 // import { makeClient } from '@spree/storefront-api-v2-sdk/dist/client'
 
 const client = makeClient({
-  host: "http://192.168.8.88:3001",
+  host: "http://localhost:3001",
 });
 
 

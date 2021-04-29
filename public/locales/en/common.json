@@ -16,6 +16,9 @@
       "english": "English"
     }
   },
+  "shipping":{
+    "secure": "Your purchase and information is 100% secure"
+  },
   "texts": {
     "buy_now": "Buy Now",
     "add_to_cart": "Add to cart",
