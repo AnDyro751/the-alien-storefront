@@ -20,23 +20,27 @@ const ProductGallery = ({ images }) => {
 
   const handleBefore = () => {
     let element = images.findIndex((el) => el.id === currentImage.id);
+    showLoader();
     if ((element || 0) != 0) {
-      showLoader();
       let newImage = element - 1;
       setCurrentImage(newImage > 0 ? images[newImage] : images[0]);
+    } else {
+      setCurrentImage(images[images.length - 1]);
     }
   };
 
   const handleNext = () => {
     let element = images.findIndex((el) => el.id === currentImage.id);
+    showLoader();
     if (element != images.length - 1) {
-      showLoader();
       let newImage = element + 1;
       if (newImage <= images.length - 1) {
         setCurrentImage(images[newImage]);
       } else {
         setCurrentImage(images[0]);
       }
+    }else{
+      setCurrentImage(images[0]);
     }
   };
 
@@ -55,13 +59,13 @@ const ProductGallery = ({ images }) => {
             onClick={handleBefore}
             className="absolute select-none bg-transparent items-center justify-center flex transition duration-150 hover:bg-black left-2 cursor-pointer bottom-0 top-0 m-auto rounded-full h-14 w-14"
           >
-            <FaAngleLeft className="text-white" />
+            <FaAngleLeft size={22} className="text-white" />
           </div>
           <div
             onClick={handleNext}
             className="absolute select-none bg-transparent items-center justify-center flex transition duration-150 hover:bg-black right-2 cursor-pointer bottom-0 top-0 m-auto rounded-full h-14 w-14"
           >
-            <FaAngleRight className="text-white" />
+            <FaAngleRight size={22} className="text-white" />
           </div>
         </div>
       </div>
@@ -70,7 +74,11 @@ const ProductGallery = ({ images }) => {
           <div
             key={i}
             onClick={() => handleClick(image)}
-            className={`w-20 h-20 rounded cursor-pointer mr-4 mb-4 bg-gray-200 image-product-container ${currentImage.id === image.id ? "border-black" : "border-transparent"} border-2`}
+            className={`w-20 h-20 rounded cursor-pointer mr-4 mb-4 bg-gray-200 image-product-container ${
+              currentImage.id === image.id
+                ? "border-black"
+                : "border-transparent"
+            } border-2`}
           >
             <Image
               layout="fixed"
