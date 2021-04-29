@@ -1,16 +1,43 @@
 import Image from "next/image";
 import "react-slideshow-image/dist/styles.css";
 import { useEffect, useState } from "react";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import nProgress from "nprogress";
 const ProductGallery = ({ images }) => {
   const [currentImage, setCurrentImage] = useState(images[0]);
 
   const handleClick = (image) => {
     setCurrentImage(image);
-    nProgress.set(.3);
+    showLoader();
+  };
+
+  const showLoader = () => {
+    nProgress.set(0.3);
     setTimeout(() => {
       nProgress.done();
     }, 350);
+  };
+
+  const handleBefore = () => {
+    let element = images.findIndex((el) => el.id === currentImage.id);
+    if ((element || 0) != 0) {
+      showLoader();
+      let newImage = element - 1;
+      setCurrentImage(newImage > 0 ? images[newImage] : images[0]);
+    }
+  };
+
+  const handleNext = () => {
+    let element = images.findIndex((el) => el.id === currentImage.id);
+    if (element != images.length - 1) {
+      showLoader();
+      let newImage = element + 1;
+      if (newImage <= images.length - 1) {
+        setCurrentImage(images[newImage]);
+      } else {
+        setCurrentImage(images[0]);
+      }
+    }
   };
 
   return (
@@ -24,6 +51,18 @@ const ProductGallery = ({ images }) => {
             quality={70}
             src={currentImage.attributes?.styles[0].url}
           />
+          <div
+            onClick={handleBefore}
+            className="absolute select-none bg-transparent items-center justify-center flex transition duration-150 hover:bg-black left-2 cursor-pointer bottom-0 top-0 m-auto rounded-full h-14 w-14"
+          >
+            <FaAngleLeft className="text-white" />
+          </div>
+          <div
+            onClick={handleNext}
+            className="absolute select-none bg-transparent items-center justify-center flex transition duration-150 hover:bg-black right-2 cursor-pointer bottom-0 top-0 m-auto rounded-full h-14 w-14"
+          >
+            <FaAngleRight className="text-white" />
+          </div>
         </div>
       </div>
       <div className="w-full mt-10 flex flex-wrap">
@@ -31,7 +70,7 @@ const ProductGallery = ({ images }) => {
           <div
             key={i}
             onClick={() => handleClick(image)}
-            className="w-20 h-20 rounded cursor-pointer mr-4 mb-4 bg-gray-200 image-product-container"
+            className={`w-20 h-20 rounded cursor-pointer mr-4 mb-4 bg-gray-200 image-product-container ${currentImage.id === image.id ? "border-black" : "border-transparent"} border-2`}
           >
             <Image
               layout="fixed"
