@@ -1,7 +1,6 @@
 import Input from "../Input";
 import { useForm, ValidationError } from "@formspree/react";
 import { useEffect, useState } from "react";
-import { Formik } from "formik";
 const ContactForm = () => {
   const [state, handleSubmit] = useForm("xoqyjdqk");
   const [success, setSuccess] = useState(false);
