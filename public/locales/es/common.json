@@ -25,5 +25,9 @@
     "home": "Inicio",
     "products": "Productos",
     "categories": "Categorías"
+  },
+  "contact": {
+    "have_questions": "¿Tienes preguntas?",
+    "contact_us": "Contáctanos"
   }
 }

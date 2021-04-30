@@ -28,5 +28,9 @@
     "home": "Home",
     "products": "Products",
     "categories": "Categories"
-  }
+  },
+  "contact":{
+    "have_questions": "Have questions?",
+    "contact_us": "Contact Us"
+  } 
 }

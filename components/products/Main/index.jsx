@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2021 Angel Mendez - Anture
- * 
+ *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
  */
@@ -13,11 +13,12 @@ import { useEffect, useMemo, useState } from "react";
 import getVariants from "../../../src/lib/getVariants.js";
 import SelectProductVariant from "../../SelectProductVariant/index.jsx";
 import SocialShare from "../../SocialShare/index.jsx";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import ShippingInfo from "../../ShippingInfo/index.jsx";
 import PaymentOptions from "../../PaymentOptions/index.jsx";
+import ContactAccess from "../../ContactAccess/index.jsx";
 // import ProductGallery from "../../ProductGallery/index.jsx";
-const ProductGallery = dynamic(()=> import("../../ProductGallery/index.jsx"))
+const ProductGallery = dynamic(() => import("../../ProductGallery/index.jsx"));
 const MainProduct = ({ product, data }) => {
   const { t } = useTranslation("common");
   const allVariants = getVariants(data.included || [], "variant");
@@ -79,6 +80,12 @@ const MainProduct = ({ product, data }) => {
           <SocialShare />
           <ShippingInfo />
           <PaymentOptions />
+        </div>
+      </div>
+      <div className="w-full mt-20 flex space-x-12">
+        <div className="w-8/12"></div>
+        <div className="w-4/12">
+          <ContactAccess />
         </div>
       </div>
     </>
