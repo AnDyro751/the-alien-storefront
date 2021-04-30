@@ -15,6 +15,7 @@ import SelectProductVariant from "../../SelectProductVariant/index.jsx";
 import SocialShare from "../../SocialShare/index.jsx";
 import dynamic from 'next/dynamic';
 import ShippingInfo from "../../ShippingInfo/index.jsx";
+import PaymentOptions from "../../PaymentOptions/index.jsx";
 // import ProductGallery from "../../ProductGallery/index.jsx";
 const ProductGallery = dynamic(()=> import("../../ProductGallery/index.jsx"))
 const MainProduct = ({ product, data }) => {
@@ -77,6 +78,7 @@ const MainProduct = ({ product, data }) => {
           <SelectProductQuantity variant={currentVariant} product={product} />
           <SocialShare />
           <ShippingInfo />
+          <PaymentOptions />
         </div>
       </div>
     </>
