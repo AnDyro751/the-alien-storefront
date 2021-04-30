@@ -26,7 +26,7 @@ const HomeBanner = () => {
         </div>
       </div>
       <Image
-        src="/images/aa26bd779bb644934077998e83557a6114.jpg"
+        src="/v1619653945/f30k86i6ucc72iv5a89jlyts5vzo.jpg"
         layout="fill"
         draggable={false}
         alt={`Alien store home banner with two womans`}
