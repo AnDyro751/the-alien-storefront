@@ -1,18 +1,20 @@
 import Input from "../Input";
 import { useForm, ValidationError } from "@formspree/react";
 import { useEffect, useState } from "react";
+import showToast from "../../src/lib/showToast";
 const ContactForm = () => {
   const [state, handleSubmit] = useForm("xoqyjdqk");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     if (state.succeeded) {
+      showToast("Tu mensaje ha sido enviado");
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
         state.succeeded = false;
       }, 2000);
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
       document.querySelector("#contact_form").reset();
     }
   }, [state.succeeded]);

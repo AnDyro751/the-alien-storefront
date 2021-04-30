@@ -24,25 +24,24 @@ const MainHeader = ({ transparent }) => {
   return (
     <div className={mainHeaderClass}>
       <div className="w-2/12 relative">
-          {/* <Link href={"/"}> */}
-            <div className="relative w-14 h-14" title={t("storeName")}>
-              <Image
-                src="/v1619713027/logo_dbptcg.png"
-                layout="fill"
-                objectFit="cover"
-                className="w-14 h-14"
-                quality={30}
-                alt={`${t("storeName")} logo`}
-              />
-            </div>
-          {/* </Link> */}
+        {/* <Link href={"/"}> */}
+        <div className="relative w-14 h-14" title={t("storeName")}>
+          <Image
+            src="/v1619713027/logo_dbptcg.png"
+            layout="fill"
+            objectFit="cover"
+            className="w-14 h-14"
+            quality={30}
+            alt={`${t("storeName")} logo`}
+          />
+        </div>
+        {/* </Link> */}
       </div>
       <div className="w-8/12 flex justify-center items-center space-x-12">
         <div className="">
           <Link href={"/"}>
             <a
               className="w-auto px-4 py-2 hover:border-black border-b-2 border-transparent"
-              href=""
             >
               {t("header.links.home")}
             </a>
@@ -52,7 +51,6 @@ const MainHeader = ({ transparent }) => {
           <Link href={"/"}>
             <a
               className="w-auto px-4 py-2 hover:border-black border-b-2 border-transparent"
-              href=""
             >
               {t("header.links.merch")}
             </a>
@@ -62,18 +60,14 @@ const MainHeader = ({ transparent }) => {
           <Link href={"/"}>
             <a
               className="w-auto px-4 py-2 hover:border-black border-b-2 border-transparent"
-              href=""
             >
               {t("header.links.dolls")}
             </a>
           </Link>
         </div>
         <div className="">
-          <Link href={"/"}>
-            <a
-              className="w-auto px-4 py-2 hover:border-black border-b-2 border-transparent"
-              href=""
-            >
+          <Link href={"/contact"}>
+            <a className="w-auto px-4 py-2 hover:border-black border-b-2 border-transparent">
               {t("header.links.contact")}
             </a>
           </Link>
