@@ -17,7 +17,7 @@ const CartProduct = ({ data }) => {
             </Link>
           </p>
           <p className="mt-2 text-sm text-gray-800">
-            {data.attributes?.display_total}
+            {data.attributes?.display_total} {data.attributes?.currency}
           </p>
           {data.attributes?.options_text && (
             <p className="mt-2 text-sm text-gray-600">
@@ -27,16 +27,16 @@ const CartProduct = ({ data }) => {
         </div>
       </div>
       <div className="w-3/12 flex items-center space-x-4">
-        <div className="w-1/2">
+        <div className="w-3/4 flex justify-center">
           <Input
             defaultValue={data.attributes?.quantity}
-            className="text-center"
+            className="text-center w-full"
             type="number"
             id={`cart_${data.attributes.id}_quantity`}
             name={`cart_${data.attributes.id}_quantity`}
           />
         </div>
-        <div className="w-1/2">
+        <div className="w-1/4 flex justify-end">
           <div
             title={`${t("delete_product")}`}
             className="h-10 w-10 cursor-pointer rounded bg-white transition duration-300 hover:text-white hover:bg-red-600 flex justify-center items-center"
