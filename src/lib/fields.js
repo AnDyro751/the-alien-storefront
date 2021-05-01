@@ -1,2 +1,2 @@
-const cartFields = "total,item_count,display_total,token,currency";
+const cartFields = "total,item_count,token,currency";
 export { cartFields };
