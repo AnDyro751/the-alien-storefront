@@ -36,7 +36,6 @@ const MainHeader = ({ transparent }) => {
     } else {
       setWithBorder(false);
     }
-    console.log("HOLA");
   };
 
   return (

@@ -5,10 +5,10 @@ import client from "../src/client";
 import { COOKIE_CURRENCY_NAME } from "../src/lib/apiConstants";
 import getCookie from "../src/lib/getCookie";
 
-const CartPage = () => {
+const CartPage = ({ data }) => {
   return (
     <MainLayout>
-      <MainCart />
+      <MainCart data={data} />
     </MainLayout>
   );
 };
@@ -25,6 +25,7 @@ export async function getServerSideProps({ locale, req }) {
         : null,
     },
     {
+      include: "line_items",
       currency: getCookie(req?.headers?.cookie || "", COOKIE_CURRENCY_NAME),
     }
   );
@@ -36,6 +37,7 @@ export async function getServerSideProps({ locale, req }) {
   }
   return {
     props: {
+      data: res.success(),
       ...(await serverSideTranslations(locale, ["common", "cart"])),
     },
   };

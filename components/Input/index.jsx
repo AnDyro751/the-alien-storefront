@@ -1,5 +1,5 @@
 const Input = ({
-  label = "",
+  label = null,
   id = "",
   placehoder = "",
   type = "text",
@@ -7,21 +7,28 @@ const Input = ({
   handleChange,
   name,
   required = false,
+  defaultValue = "",
+  className = "",
 }) => {
   return (
     <div className="w-full">
-      <label className="text-gray-700 text-sm" htmlFor={id}>
-        {label}
-      </label>
+      {label && (
+        <label className="text-gray-700 text-sm" htmlFor={id}>
+          {label}
+        </label>
+      )}
       {!textarea && (
         <input
+          defaultValue={defaultValue || ""}
           required={required}
           name={name}
           onChange={handleChange}
           type={type}
           id={id}
           placeholder={placehoder}
-          className="p-3 w-full mt-2 rounded bg-white border"
+          className={`p-3 w-full rounded bg-white border ${className} ${
+            label && "mt-2"
+          }`}
         />
       )}
       {textarea && (
