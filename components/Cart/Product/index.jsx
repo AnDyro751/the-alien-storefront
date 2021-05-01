@@ -16,7 +16,9 @@ const CartProduct = ({ data }) => {
               <a>{data.attributes?.name}</a>
             </Link>
           </p>
-
+          <p className="mt-2 text-sm text-gray-800">
+            {data.attributes?.display_total}
+          </p>
           {data.attributes?.options_text && (
             <p className="mt-2 text-sm text-gray-600">
               {data.attributes?.options_text}
