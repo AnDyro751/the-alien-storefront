@@ -98,7 +98,7 @@ const MainHeader = ({ transparent }) => {
             </Link>
           </div>
           <div className="w-1/3 ">
-            <Link href="/">
+            <Link href="/cart">
               <a
                 className="flex items-center p-2 justify-center"
                 title={`${t("header.cart")}`}
