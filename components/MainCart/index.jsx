@@ -1,7 +1,9 @@
+import CartStepper from "../CartStepper";
+
 const MainCart = () => {
   return (
-    <div className="w-full">
-      <div></div>
+    <div className="w-full py-20">
+      <CartStepper />
     </div>
   );
 };
