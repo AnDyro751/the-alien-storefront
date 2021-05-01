@@ -11,7 +11,9 @@ function MainLayout({ children, transparentHeader }) {
       <NextSeo title={t("storeName")} description={t("storeDescription")} />
       <div className="w-full">
         <MainHeader transparent={transparentHeader} />
-        {children}
+        <main className="mt-20" >
+          {children}
+          </main>
       </div>
       <Footer />
     </>

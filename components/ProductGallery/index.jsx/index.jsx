@@ -99,7 +99,7 @@ const ProductGallery = ({ images }) => {
       />
       <div className="w-full relative">
         <div className="relative w-full bg-gray-200 rounded">
-          <div className="h-xxl z-50 relative cursor-pointer">
+          <div className="h-xxl z-10 relative cursor-pointer">
             <Image
               layout="fill"
               objectFit="cover"

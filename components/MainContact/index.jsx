@@ -8,7 +8,7 @@ const MainContact = () => {
   return (
     <>
       <div className="w-full py-32 bg-indigo-300 shadow-md mb-10">
-        <h1 className="text-5xl font-medium text-center text-indigo-900">
+        <h1 className="text-5xl font-medium text-center text-gray-900">
           {t("contact.contact_us")}
         </h1>
       </div>
