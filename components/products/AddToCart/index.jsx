@@ -88,7 +88,7 @@ export default function ProductAddToCart({
   return (
     <button
       onClick={handleCart}
-      className={`bg-black rounded flex h-12 focus:outline-none justify-center items-center px-4 py-3 ${
+      className={`bg-black rounded flex h-12 focus:outline-none transition duration-150 hover:bg-gray-900 justify-center items-center px-4 py-3 ${
         loading && "opacity-70 cursor-not-allowed"
       } ${className}`}
       disabled={loading}

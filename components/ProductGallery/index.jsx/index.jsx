@@ -6,10 +6,11 @@ import nProgress from "nprogress";
 import "react-bnb-gallery/dist/style.css";
 import ReactBnbGallery from "react-bnb-gallery";
 import getImageUrl from "../../../src/lib/getImageUrl";
+import getProductImages from "../../../src/lib/getProductImages";
 
 const ProductGallery = ({ images }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(images[0]);
+  const [currentImage, setCurrentImage] = useState(getProductImages(images)[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleClick = (image) => {
@@ -29,33 +30,40 @@ const ProductGallery = ({ images }) => {
   };
 
   const handleBefore = () => {
-    let element = images.findIndex((el) => el.id === currentImage.id);
-    showLoader();
-    if ((element || 0) != 0) {
-      let newImage = element - 1;
-      setCurrentIndex(newImage);
-      setCurrentImage(newImage > 0 ? images[newImage] : images[0]);
-    } else {
-      setCurrentIndex(images[images.length - 1]);
-      setCurrentImage(images[images.length - 1]);
+    if (images.length > 0) {
+      let element = images.findIndex((el) => el.id === currentImage.id);
+      showLoader();
+      if ((element || 0) != 0) {
+        let newImage = element - 1;
+        setCurrentIndex(newImage);
+        setCurrentImage(
+          newImage > 0 ? images[newImage] : getProductImages(images)[0]
+        );
+      } else {
+        setCurrentIndex(images[images.length - 1]);
+        setCurrentImage(images[images.length - 1]);
+      }
     }
   };
 
   const handleNext = () => {
-    let element = images.findIndex((el) => el.id === currentImage.id);
-    showLoader();
-    if (element != images.length - 1) {
-      let newImage = element + 1;
-      if (newImage <= images.length - 1) {
-        setCurrentIndex(newImage);
-        setCurrentImage(images[newImage]);
+    if (images.length > 0) {
+      let element = images.findIndex((el) => el.id === currentImage.id);
+
+      showLoader();
+      if (element != images.length - 1) {
+        let newImage = element + 1;
+        if (newImage <= images.length - 1) {
+          setCurrentIndex(newImage);
+          setCurrentImage(images[newImage]);
+        } else {
+          setCurrentIndex(0);
+          setCurrentImage(getProductImages(images)[0]);
+        }
       } else {
         setCurrentIndex(0);
-        setCurrentImage(images[0]);
+        setCurrentImage(getProductImages(images)[0]);
       }
-    } else {
-      setCurrentIndex(0);
-      setCurrentImage(images[0]);
     }
   };
 
@@ -76,8 +84,6 @@ const ProductGallery = ({ images }) => {
     });
     return newImages;
   };
-
-  console.log(getImages());
 
   const handleOpen = () => {
     setIsOpen(true);

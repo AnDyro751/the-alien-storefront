@@ -16,7 +16,7 @@
       "english": "English"
     }
   },
-  "shipping":{
+  "shipping": {
     "secure": "Your purchase and information is 100% secure"
   },
   "texts": {
@@ -24,14 +24,18 @@
     "add_to_cart": "Add to cart",
     "quantity": "Quantity"
   },
+  "products": {
+    "all_products": "All products",
+    "view_product": "View product"
+  },
   "breadcrumbs": {
     "home": "Home",
     "products": "Products",
     "categories": "Categories"
   },
-  "contact":{
+  "contact": {
     "have_questions": "Have questions?",
     "contact_us": "Contact Us",
     "get_in_touch": "Get in touch"
-  } 
+  }
 }
