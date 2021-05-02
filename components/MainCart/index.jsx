@@ -8,10 +8,15 @@ const MainCart = ({ data }) => {
   const [lineItems, setLineItems] = useState(
     getVariants(data.included, "line_item")
   );
+  const [subtotalAttributes, setSubtotalAttributes] = useState(
+    data.data.attributes || {}
+  );
 
-  const onHandleDelete = (data) => {
+  const onHandleDelete = (data, subtotal) => {
     let newLineItems = lineItems.filter((el) => el.id !== data.id);
     setLineItems(newLineItems);
+    console.log(subtotal);
+    setSubtotalAttributes(subtotal.data.attributes);
   };
 
   return (
@@ -29,7 +34,7 @@ const MainCart = ({ data }) => {
             />
           ))}
         </div>
-        <CartInfo data={data.data.attributes} />
+        <CartInfo data={subtotalAttributes} />
       </div>
     </div>
   );

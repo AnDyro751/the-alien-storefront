@@ -3,11 +3,38 @@ import { BsTrash } from "react-icons/bs";
 import { useTranslation } from "next-i18next";
 import Input from "../../Input";
 import Link from "next/link";
+import { useState } from "react";
+import client from "../../../src/client";
+import getCookie from "../../../src/lib/getCookie";
+import { COOKIE_SPREE_ORDER } from "../../../src/lib/apiConstants";
+import showToast from "../../../src/lib/showToast";
 const CartProduct = ({ data, handleDelete }) => {
   const { t } = useTranslation("common");
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
-  const handleDeleteProduct = () => {
-    handleDelete(data);
+  const handleDeleteProduct = async () => {
+    setLoadingDelete(true);
+    const response = await client.cart.removeItem(
+      {
+        orderToken: getCookie(document.cookie, COOKIE_SPREE_ORDER),
+      },
+      data.id,
+      {
+        fields: {
+          cart:
+            "display_total,currency,display_item_total,display_pre_tax_item_amount,display_pre_tax_total,number,state",
+        },
+      }
+    );
+    if (response.isSuccess()) {
+      console.log(response.success());
+      setLoadingDelete(false);
+      handleDelete(data, response.success());
+      showToast("Producto eliminado");
+    } else {
+      showToast("No se ha podido eliminar el producto");
+      setLoadingDelete(false);
+    }
   };
 
   return (
@@ -41,13 +68,18 @@ const CartProduct = ({ data, handleDelete }) => {
           />
         </div>
         <div className="w-1/4 flex justify-end">
-          <div
+          <button
+            disabled={loadingDelete}
             onClick={handleDeleteProduct}
             title={`${t("delete_product")}`}
-            className="h-10 w-10 cursor-pointer rounded bg-white transition duration-300 hover:text-white hover:bg-red-600 flex justify-center items-center"
+            className={`${
+              loadingDelete
+                ? "cursor-not-allowed opacity-70 bg-red-500 text-white"
+                : "bg-white "
+            } h-12 hover:shadow-xl border w-12 cursor-pointer rounded transition duration-300 hover:text-white hover:bg-red-600 flex justify-center items-center`}
           >
             <BsTrash className="text-current fill-current" />
-          </div>
+          </button>
         </div>
       </div>
     </div>
