@@ -3,8 +3,12 @@ import { BsTrash } from "react-icons/bs";
 import { useTranslation } from "next-i18next";
 import Input from "../../Input";
 import Link from "next/link";
-const CartProduct = ({ data }) => {
+const CartProduct = ({ data, handleDelete }) => {
   const { t } = useTranslation("common");
+
+  const handleDeleteProduct = () => {
+    handleDelete(data);
+  };
 
   return (
     <div className="w-full flex items-center space-x-4">
@@ -38,6 +42,7 @@ const CartProduct = ({ data }) => {
         </div>
         <div className="w-1/4 flex justify-end">
           <div
+            onClick={handleDeleteProduct}
             title={`${t("delete_product")}`}
             className="h-10 w-10 cursor-pointer rounded bg-white transition duration-300 hover:text-white hover:bg-red-600 flex justify-center items-center"
           >
