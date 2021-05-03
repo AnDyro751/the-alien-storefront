@@ -9,6 +9,7 @@ import Image from "next/image";
 import { BiCart, BiSearch } from "react-icons/bi";
 import dynamic from "next/dynamic";
 import throttle from "lodash/throttle";
+import { HiOutlineMenu } from "react-icons/hi";
 const HeaderChangeOptions = dynamic(() => import("../../HeaderChangeOptions"), {
   ssr: false,
 });
@@ -41,19 +42,21 @@ const MainHeader = ({ transparent }) => {
   return (
     <div className={mainHeaderClass}>
       <div className="w-11/12 items-center py-3 mx-auto flex">
-        <div className="w-6/12 relative">
-          {/* <Link href={"/"}> */}
-          <div className="relative w-14 h-14" title={t("storeName")}>
-            <Image
-              src="/v1619713027/logo_dbptcg.png"
-              layout="fill"
-              objectFit="cover"
-              className="w-14 h-14"
-              quality={30}
-              alt={`${t("storeName")} logo`}
-            />
+        <div className="w-6/12 md:w-2/12 relative">
+          <div className="relative w-14 h-14">
+            <Link href={"/"}>
+              <a title={t("storeName")}>
+                <Image
+                  src="/v1619713027/logo_dbptcg.png"
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-14 h-14"
+                  quality={30}
+                  alt={`${t("storeName")} logo`}
+                />
+              </a>
+            </Link>
           </div>
-          {/* </Link> */}
         </div>
         <div className="w-8/12 hidden md:flex justify-center items-center space-x-12">
           <div className="">
@@ -86,9 +89,10 @@ const MainHeader = ({ transparent }) => {
           </div>
         </div>
         <div className="w-6/12 md:w-2/12 flex justify-end items-center space-x-3">
-          <div className="w-1/3 flex items-center justify-center">
+          <div className="w-1/3 hidden md:flex items-center justify-center">
             <HeaderChangeOptions />
           </div>
+
           <div className="w-1/3 flex items-center justify-center">
             <Link href="/search">
               <a className="flex p-2" title={`${t("header.search_in_site")}`}>
@@ -107,6 +111,9 @@ const MainHeader = ({ transparent }) => {
                 )
               </a>
             </Link>
+          </div>
+          <div className="w-1/3 flex md:hidden items-center justify-center">
+            <HiOutlineMenu size={20} />
           </div>
         </div>
       </div>
