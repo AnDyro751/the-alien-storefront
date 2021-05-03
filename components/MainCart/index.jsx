@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { useState } from "react";
+import client from "../../src/client";
+import { COOKIE_SPREE_ORDER } from "../../src/lib/apiConstants";
+import getCookie from "../../src/lib/getCookie";
 import getVariants from "../../src/lib/getVariants";
+import showToast from "../../src/lib/showToast";
+import ComponentButton from "../Button";
 import CartInfo from "../Cart/CartInfo";
 import CartProduct from "../Cart/Product";
 import CartStepper from "../CartStepper";
@@ -9,6 +14,7 @@ const MainCart = ({ data }) => {
   const [lineItems, setLineItems] = useState(
     getVariants(data.included, "line_item")
   );
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const [subtotalAttributes, setSubtotalAttributes] = useState(
     data.data.attributes || {}
   );
@@ -22,6 +28,35 @@ const MainCart = ({ data }) => {
 
   const onHandleUpdate = (data) => {
     setSubtotalAttributes(data.data.attributes || {});
+  };
+
+  const onHandleEmptyCart = async () => {
+    try {
+      setLoadingDelete(true);
+
+      const response = await client.cart.emptyCart(
+        {
+          orderToken: getCookie(document.cookie, COOKIE_SPREE_ORDER),
+        },
+        {
+          fields: {
+            cart: "display_total",
+          },
+        }
+      );
+      if (response.isSuccess()) {
+        setLineItems([]);
+        window.scrollTo(0, 0);
+        setLoadingDelete(false);
+        showToast("Se ha vaciado el carrito")
+      } else {
+        setLoadingDelete(false);
+        showToast("Ha ocurrido un error al vaciar el carrito");
+      }
+    } catch (e) {
+      showToast("Ha ocurrido un error al vaciar el carrito");
+      setLoadingDelete(false);
+    }
   };
 
   if (lineItems.length <= 0) {
@@ -44,6 +79,7 @@ const MainCart = ({ data }) => {
       </div>
     );
   }
+
   return (
     <div className="w-full">
       <div className="w-full py-20">
@@ -61,6 +97,19 @@ const MainCart = ({ data }) => {
           ))}
         </div>
         <CartInfo data={subtotalAttributes} />
+        <div className="w-full flex justify-end mt-10 space-x-8">
+          <ComponentButton
+            handleClick={onHandleEmptyCart}
+            text="Vaciar carrito"
+            color="secondary"
+            loading={loadingDelete}
+          />
+          <ComponentButton
+            href={"/cart/address"}
+            text="Siguiente"
+            color="primary"
+          />
+        </div>
       </div>
     </div>
   );

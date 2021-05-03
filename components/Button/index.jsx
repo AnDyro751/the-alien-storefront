@@ -1,32 +1,57 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
-const ComponentButton = ({ text, href, className }) => {
+import classnames from "classnames";
+
+const ComponentButton = ({
+  text,
+  href,
+  className,
+  color,
+  handleClick,
+  loading,
+}) => {
+  const classButton = classnames({
+    "relative px-8 font-medium focus:outline-none py-3 shadow-sm transition duration-75 rounded-md": true,
+    [`${className}`]: true,
+    "main-shadow": color === "secondary" && !loading,
+    "bg-secondary": color === "secondary",
+    "bg-black text-white hover:bg-gray-800": color !== "secondary",
+    "bg-opacity-50 cursor-not-allowed": loading,
+  });
   if (href) {
     return (
       <div className="flex">
         <Link href={href}>
-          <a
-            className={`bg-secondary relative px-8 font-medium py-3 shadow-sm transition duration-75 rounded-md main-shadow ${className}`}
-          >
-            {text}
-          </a>
+          <a className={classButton}>{text}</a>
         </Link>
       </div>
     );
   } else {
-    return <div></div>;
+    return (
+      <button
+        disabled={loading}
+        onClick={handleClick}
+        className={classButton}
+      >
+        {text}
+      </button>
+    );
   }
 };
 
 ComponentButton.propTypes = {
   text: PropTypes.string.isRequired,
-  href: PropTypes.string.isRequired,
+  href: PropTypes.string,
   className: PropTypes.string,
+  color: PropTypes.oneOf(["secondary", "primary"]),
+  loading: PropTypes.bool.isRequired,
 };
 ComponentButton.defaultProps = {
   text: "",
   href: null,
   className: null,
+  color: "secondary",
+  loading: false,
 };
 
 export default ComponentButton;
