@@ -9,6 +9,7 @@ const Input = ({
   required = false,
   defaultValue = "",
   className = "",
+  onBlur = null,
 }) => {
   return (
     <div className="w-full">
@@ -19,6 +20,9 @@ const Input = ({
       )}
       {!textarea && (
         <input
+          onBlur={(e) => {
+            onBlur ? onBlur(e) : null;
+          }}
           defaultValue={defaultValue || ""}
           required={required}
           name={name}

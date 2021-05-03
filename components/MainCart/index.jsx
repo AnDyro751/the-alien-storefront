@@ -20,7 +20,11 @@ const MainCart = ({ data }) => {
     setSubtotalAttributes(subtotal.data.attributes || {});
   };
 
-  if (lineItems.length <= 0 ) {
+  const onHandleUpdate = (data) => {
+    setSubtotalAttributes(data.data.attributes || {});
+  };
+
+  if (lineItems.length <= 0) {
     return (
       <div className="h-screen w-11/12 flex-wrap mx-auto flex items-center justify-center">
         <div className="w-full relative flex-wrap mx-auto flex items-center justify-center ">
@@ -49,6 +53,7 @@ const MainCart = ({ data }) => {
         <div className="w-full space-y-4">
           {lineItems.map((line_item, i) => (
             <CartProduct
+              handleUpdate={onHandleUpdate}
               handleDelete={onHandleDelete}
               data={line_item}
               key={i}

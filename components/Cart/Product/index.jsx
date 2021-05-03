@@ -8,9 +8,13 @@ import client from "../../../src/client";
 import getCookie from "../../../src/lib/getCookie";
 import { COOKIE_SPREE_ORDER } from "../../../src/lib/apiConstants";
 import showToast from "../../../src/lib/showToast";
-const CartProduct = ({ data, handleDelete }) => {
+import getVariants from "../../../src/lib/getVariants";
+import { reposition } from "toastify-js";
+import getRecord from "../../../src/lib/getRecord";
+const CartProduct = ({ data, handleDelete, handleUpdate }) => {
   const { t } = useTranslation("common");
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [productData, setProductData] = useState(data);
 
   const handleDeleteProduct = async () => {
     setLoadingDelete(true);
@@ -18,7 +22,7 @@ const CartProduct = ({ data, handleDelete }) => {
       {
         orderToken: getCookie(document.cookie, COOKIE_SPREE_ORDER),
       },
-      data.id,
+      productData.id,
       {
         fields: {
           cart:
@@ -37,22 +41,65 @@ const CartProduct = ({ data, handleDelete }) => {
     }
   };
 
+  const handleBlur = async (e) => {
+    let newValue = parseInt(e.target.value) || 0;
+    if (newValue <= 0) {
+      handleDeleteProduct();
+    } else {
+      if (newValue !== (parseInt(productData.attributes?.quantity) || 0)) {
+        const response = await client.cart.setQuantity(
+          {
+            orderToken: getCookie(document.cookie, COOKIE_SPREE_ORDER),
+          },
+          {
+            line_item_id: productData.id,
+            quantity: newValue,
+            fields: {
+              cart:
+                "display_total,currency,display_item_total,display_pre_tax_item_amount,display_pre_tax_total,number,state",
+            },
+            include: "line_items",
+          }
+        );
+        if (response.isSuccess()) {
+          console.log(response.success());
+          if (response.success().included.length > 0) {
+            showToast("Carrito actualizado");
+            setProductData(
+              getRecord(response.success().included, productData.id)
+            );
+            handleUpdate(response.success());
+            // console.log(
+            //   getRecord(response.success().included, productData.id),
+            //   "RECORD NEW"
+            // );
+          } else {
+            showToast("Ha ocurrido un error al actualizar el elemento");
+          }
+        } else {
+          showToast("Ha ocurrido un error al actualizar el elemento");
+        }
+      }
+    }
+  };
+
   return (
     <div className="w-full flex items-center space-x-4">
       <div className="w-9/12 flex items-center space-x-4">
         <div className="h-20 w-20 bg-gray-200 animate-pulse rounded shadow"></div>
         <div>
           <p className="font-medium text-lg text-gray-900">
-            <Link href={`/products/${data.attributes?.slug}`}>
-              <a>{data.attributes?.name}</a>
+            <Link href={`/products/${productData.attributes?.slug}`}>
+              <a>{productData.attributes?.name}</a>
             </Link>
           </p>
           <p className="mt-2 text-sm text-gray-800">
-            {data.attributes?.display_total} {data.attributes?.currency}
+            {productData.attributes?.display_total}{" "}
+            {productData.attributes?.currency}
           </p>
-          {data.attributes?.options_text && (
+          {productData.attributes?.options_text && (
             <p className="mt-2 text-sm text-gray-600">
-              {data.attributes?.options_text}
+              {productData.attributes?.options_text}
             </p>
           )}
         </div>
@@ -60,11 +107,12 @@ const CartProduct = ({ data, handleDelete }) => {
       <div className="w-3/12 flex items-center space-x-4">
         <div className="w-3/4 flex justify-center">
           <Input
-            defaultValue={data.attributes?.quantity}
+            onBlur={handleBlur}
+            defaultValue={productData.attributes?.quantity}
             className="text-center w-full"
             type="number"
-            id={`cart_${data.attributes.id}_quantity`}
-            name={`cart_${data.attributes.id}_quantity`}
+            id={`cart_${productData.attributes.id}_quantity`}
+            name={`cart_${productData.attributes.id}_quantity`}
           />
         </div>
         <div className="w-1/4 flex justify-end">
