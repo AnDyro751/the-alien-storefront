@@ -27,6 +27,7 @@ const SelectProductQuantity = ({ product, variant = {} }) => {
         </div>
         <div className="w-1/2">
           <ProductAddToCart
+            quantity={quantity}
             disabled={isEmpty(variant) ? true : !variant.purchasable}
             variant={variant}
             text={t("texts.add_to_cart")}

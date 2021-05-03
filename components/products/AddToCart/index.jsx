@@ -12,6 +12,7 @@ export default function ProductAddToCart({
   className,
   product,
   variant,
+  quantity = 1,
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -34,6 +35,7 @@ export default function ProductAddToCart({
           orderToken: token ? token : state.order.attributes.token,
         },
         {
+          quantity: quantity || 1,
           variant_id: variant.id,
           currency: getCurrentCurrency(state.order, document.cookie),
           fields: {
