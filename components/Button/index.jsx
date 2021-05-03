@@ -20,7 +20,7 @@ const ComponentButton = ({
   });
   if (href) {
     return (
-      <div className="flex">
+      <div className="flex w-full">
         <Link href={href}>
           <a className={classButton}>{text}</a>
         </Link>

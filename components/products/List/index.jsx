@@ -10,7 +10,7 @@ export default function ProductsList({ products, data }) {
       <h1 className="text-3xl text-gray-900 mb-10 font-medium">
         {t("products.all_products")}
       </h1>
-      <div className="grid w-full grid-cols-4 gap-4">
+      <div className="grid w-full grid-cols-1 md:grid-cols-4 gap-4">
         {products.map((product, i) => (
           <div className="w-full" key={i}>
             <ProductsShow included={data.included} product={product} />
