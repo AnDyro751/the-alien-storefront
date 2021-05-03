@@ -1,7 +1,11 @@
-import ContactForm from "../ContactForm";
 import { useTranslation } from "next-i18next";
 import { BiPhone } from "react-icons/bi";
 import { MdMailOutline } from "react-icons/md";
+import dynamic from "next/dynamic";
+
+// import ContactForm from "../ContactForm";
+const ContactForm = dynamic(() => import("../ContactForm"));
+
 const MainContact = () => {
   const { t } = useTranslation("common");
 

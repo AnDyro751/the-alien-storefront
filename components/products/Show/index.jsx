@@ -4,6 +4,7 @@ import getImagesFromIncluded from "../../../src/lib/getImagesFromIncluded";
 import getProductImages from "../../../src/lib/getProductImages";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
+import ComponentButton from "../../Button";
 
 export default function ProductsShow({ included, product }) {
   const { t } = useTranslation("common");
@@ -40,11 +41,12 @@ export default function ProductsShow({ included, product }) {
         </Link>
       </div>
       <div className="flex w-full">
-        <Link href={`/products/${product.attributes?.slug}`}>
-          <a className="px-8 py-3 w-full transition duration-150 hover:bg-gray-900 text-white text-center h-12 bg-black rounded focus:outline-none">
-            {t("products.view_product")}
-          </a>
-        </Link>
+        <ComponentButton
+          href={`/products/${product.attributes?.slug}`}
+          text={t("products.view_product")}
+          className="w-full text-center"
+          color="primary"
+        />
       </div>
       {/* <ProductAddToCart className="w-full" product={product} /> */}
     </div>

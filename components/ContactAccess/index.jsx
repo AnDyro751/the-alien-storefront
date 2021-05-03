@@ -10,13 +10,14 @@ const ContactAccess = () => {
         layout="fill"
         className="rounded"
         objectFit="cover"
+        alt="Image contact alien store"
         src="v1619752672/IMG_3367_xmosvo.jpg"
       />
       <div className="w-full z-20 absolute left-0 right-0 px-5 flex items-center bottom-0 top-0">
         <div className="w-full">
-          <h4 className="text-3xl text-white font-medium">
+          <h3 className="text-3xl text-white font-medium">
             {t("contact.have_questions")}
-          </h4>
+          </h3>
           <div className="flex mt-8">
             <Link href="/contact">
               <a className="px-8 py-3 text-sm rounded-full bg-white text-black uppercase">

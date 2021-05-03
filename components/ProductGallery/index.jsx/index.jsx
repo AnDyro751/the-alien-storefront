@@ -1,71 +1,21 @@
 import Image from "next/image";
-import "react-slideshow-image/dist/styles.css";
 import { useState } from "react";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import nProgress from "nprogress";
-import "react-bnb-gallery/dist/style.css";
-import ReactBnbGallery from "react-bnb-gallery";
 import getImageUrl from "../../../src/lib/getImageUrl";
 import getProductImages from "../../../src/lib/getProductImages";
-
-const ProductGallery = ({ images }) => {
+import "keen-slider/keen-slider.min.css";
+import { useKeenSlider } from "keen-slider/react";
+import s from "./ProductGallery.module.css";
+const ProductGallery = ({ images, product }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(getProductImages(images)[0]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentImages, setCurrentImages] = useState(getProductImages(images));
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const handleClick = (image) => {
-    let element = images.findIndex((el) => el.id === image.id);
-    setCurrentIndex(element);
-    if (image.id != currentImage.id) {
-      setCurrentImage(image);
-      showLoader();
-    }
-  };
-
-  const showLoader = () => {
-    nProgress.set(0.3);
-    setTimeout(() => {
-      nProgress.done();
-    }, 350);
-  };
-
-  const handleBefore = () => {
-    if (images.length > 0) {
-      let element = images.findIndex((el) => el.id === currentImage.id);
-      showLoader();
-      if ((element || 0) != 0) {
-        let newImage = element - 1;
-        setCurrentIndex(newImage);
-        setCurrentImage(
-          newImage > 0 ? images[newImage] : getProductImages(images)[0]
-        );
-      } else {
-        setCurrentIndex(images[images.length - 1]);
-        setCurrentImage(images[images.length - 1]);
-      }
-    }
-  };
-
-  const handleNext = () => {
-    if (images.length > 0) {
-      let element = images.findIndex((el) => el.id === currentImage.id);
-
-      showLoader();
-      if (element != images.length - 1) {
-        let newImage = element + 1;
-        if (newImage <= images.length - 1) {
-          setCurrentIndex(newImage);
-          setCurrentImage(images[newImage]);
-        } else {
-          setCurrentIndex(0);
-          setCurrentImage(getProductImages(images)[0]);
-        }
-      } else {
-        setCurrentIndex(0);
-        setCurrentImage(getProductImages(images)[0]);
-      }
-    }
-  };
+  const [sliderRef, slider] = useKeenSlider({
+    initial: 0,
+    slideChanged(s) {
+      setCurrentSlide(s.details().relativeSlide);
+    },
+  });
 
   const getImages = () => {
     const newImages = [];
@@ -91,59 +41,39 @@ const ProductGallery = ({ images }) => {
 
   return (
     <>
-      <ReactBnbGallery
-        show={isOpen}
-        activePhotoIndex={currentIndex}
-        photos={getImages()}
-        onClose={() => setIsOpen(false)}
-      />
       <div className="w-full relative">
-        <div className="relative w-full bg-gray-200 rounded">
-          <div className="h-xxl z-10 relative cursor-pointer">
-            <Image
-              layout="fill"
-              objectFit="cover"
-              className="rounded shadow-sm bg-gray-200"
-              quality={70}
-              onClick={handleOpen}
-              src={currentImage.attributes?.styles[0].url}
-            />
-            <div
-              onClick={handleBefore}
-              className="absolute z-50 select-none bg-transparent items-center justify-center flex transition duration-150 hover:bg-black left-2 cursor-pointer bottom-0 top-0 m-auto rounded-full h-14 w-14"
-            >
-              <FaAngleLeft size={22} className="text-white" />
-            </div>
-            <div
-              onClick={handleNext}
-              className="absolute z-50 select-none bg-transparent items-center justify-center flex transition duration-150 hover:bg-black right-2 cursor-pointer bottom-0 top-0 m-auto rounded-full h-14 w-14"
-            >
-              <FaAngleRight size={22} className="text-white" />
-            </div>
+        <div className="relative w-full h-96 md:h-xxl bg-white rounded">
+          <div className="keen-slider h-full w-full" ref={sliderRef}>
+            {currentImages.map((image, i) => (
+              <div key={i} className="keen-slider__slide cursor-pointer">
+                <Image
+                  layout="fill"
+                  objectFit={"cover"}
+                  className="rounded shadow-sm bg-gray-200"
+                  quality={70}
+                  onClick={handleOpen}
+                  alt={`${product.attributes?.name} image - ${product.attributes?.slug} photo alien store`}
+                  src={image.attributes?.styles[0].url}
+                />
+              </div>
+            ))}
           </div>
         </div>
-        <div className="w-full mt-10 flex flex-wrap">
-          {images.map((image, i) => (
-            <div
-              key={i}
-              onClick={() => handleClick(image)}
-              className={`w-20 h-20 rounded cursor-pointer mr-4 mb-4 bg-gray-200 image-product-container ${
-                currentImage.id === image.id
-                  ? "border-black"
-                  : "border-transparent"
-              } border-2`}
-            >
-              <Image
-                layout="fixed"
-                objectFit="cover"
-                quality={75}
-                width={80}
-                height={80}
-                src={image.attributes?.styles[0].url}
-              />
-            </div>
-          ))}
-        </div>
+        {slider && (
+          <div className={s.dots}>
+            {[...Array(slider.details().size).keys()].map((idx) => {
+              return (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    slider?.moveToSlideRelative(idx);
+                  }}
+                  className={`${s.dot} ${currentSlide === idx ? s.active : ""}`}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );

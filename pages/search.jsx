@@ -11,7 +11,7 @@ const searchClient = algoliasearch(
   "ea8ab7ea3c49cfb53c1e827644fd6502"
 );
 
-const SearchPage = () => {
+const SearchPage = ({locale}) => {
   const [searchState, setSearchState] = useState({});
   const [loaded, setLoaded] = useState(false);
 
@@ -77,6 +77,7 @@ const Hits = ({ hits }) => {
 export async function getServerSideProps({ req, locale, query }) {
   return {
     props: {
+      locale: locale,
       ...(await serverSideTranslations(locale, ["common"])),
     },
   };

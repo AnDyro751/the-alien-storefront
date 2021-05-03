@@ -5,4 +5,6 @@ const getLocale = (locale = "en") => {
     return "es-MX";
   }
 };
+
+// const getLocale
 export default getLocale;

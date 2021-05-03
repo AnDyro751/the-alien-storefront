@@ -16,16 +16,20 @@ const SelectProductQuantity = ({ product, variant = {} }) => {
           {t("texts.quantity")}
         </label>
       </div>
-      <div className="w-full flex items-center space-x-4">
-        <div className="w-1/2">
+      <div className="w-full flex items-center flex-wrap md:flex-nowrap space-y-4 md:space-y-0 md:space-x-4">
+        <div className="w-full md:w-1/2">
+          <label htmlFor="add_quantity" className="hidden invisible">
+            add quantity
+          </label>
           <input
             onChange={handleChange}
             type="number"
+            id="add_quantity"
             value={quantity}
             className="px-4 h-12 w-full py-3 bg-gray-200 rounded shadow text-center appearance-none"
           />
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <ProductAddToCart
             quantity={quantity}
             disabled={isEmpty(variant) ? true : !variant.purchasable}
