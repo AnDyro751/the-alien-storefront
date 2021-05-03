@@ -41,7 +41,7 @@ const MainProduct = ({ product, data }) => {
 
   return (
     <>
-      <div className="w-full mt-10 md:mt-0">
+      <div className="w-full">
         <Breadcrumbs
           keys={[
             { text: t("breadcrumbs.home"), href: "/" },
@@ -50,7 +50,7 @@ const MainProduct = ({ product, data }) => {
           ]}
         />
       </div>
-      <div className="w-full flex flex-wrap md:flex-nowrap mt-10 space-x-0 md:space-x-12">
+      <div className="w-full flex flex-wrap md:flex-nowrap mt-4 md:mt-10 space-x-0 md:space-x-12">
         <div className="w-full md:w-6/12">
           <ProductGallery
             product={product}
