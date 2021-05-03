@@ -3,7 +3,7 @@ import { BsTrash } from "react-icons/bs";
 import { useTranslation } from "next-i18next";
 import Input from "../../Input";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import client from "../../../src/client";
 import getCookie from "../../../src/lib/getCookie";
 import { COOKIE_SPREE_ORDER } from "../../../src/lib/apiConstants";
@@ -14,6 +14,10 @@ const CartProduct = ({ data, handleDelete, handleUpdate }) => {
   const { t } = useTranslation("common");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [productData, setProductData] = useState(data);
+
+  useEffect(() => {
+    setProductData(data);
+  }, [data]);
 
   const { state, dispatch } = useContext(OrderContext);
 
@@ -34,8 +38,12 @@ const CartProduct = ({ data, handleDelete, handleUpdate }) => {
     if (response.isSuccess()) {
       console.log(response.success());
       setLoadingDelete(false);
-      handleDelete(data, response.success());
+      handleDelete(productData, response.success());
       showToast("Producto eliminado");
+      dispatch({
+        type: "UPDATE_ORDER",
+        payload: response.success().data,
+      });
     } else {
       showToast("No se ha podido eliminar el producto");
       setLoadingDelete(false);
@@ -101,7 +109,7 @@ const CartProduct = ({ data, handleDelete, handleUpdate }) => {
           </p>
           {productData.attributes?.options_text && (
             <p className="mt-2 text-sm text-gray-600">
-              {productData.attributes?.options_text}
+              {productData.attributes?.options_text} {productData.id}
             </p>
           )}
         </div>

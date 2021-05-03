@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import client from "../../src/client";
 import { COOKIE_SPREE_ORDER } from "../../src/lib/apiConstants";
 import getCookie from "../../src/lib/getCookie";
 import getVariants from "../../src/lib/getVariants";
 import showToast from "../../src/lib/showToast";
+import { OrderContext } from "../../src/stores/useOrder";
 import ComponentButton from "../Button";
 import CartInfo from "../Cart/CartInfo";
 import CartProduct from "../Cart/Product";
@@ -18,10 +19,13 @@ const MainCart = ({ data }) => {
   const [subtotalAttributes, setSubtotalAttributes] = useState(
     data.data.attributes || {}
   );
+  const { state, dispatch } = useContext(OrderContext);
+
 
   const onHandleDelete = (data, subtotal) => {
-    let newLineItems = lineItems.filter((el) => el.id !== data.id);
+    let newLineItems = lineItems.filter((el) => el.id != data.id);
     setLineItems(newLineItems);
+    console.log(newLineItems, "se elimina el", data.id);
     console.log(subtotal);
     setSubtotalAttributes(subtotal.data.attributes || {});
   };
@@ -40,15 +44,19 @@ const MainCart = ({ data }) => {
         },
         {
           fields: {
-            cart: "display_total",
+            cart: "display_total,item_count",
           },
         }
       );
       if (response.isSuccess()) {
         setLineItems([]);
         window.scrollTo(0, 0);
+        dispatch({
+          type: "UPDATE_ORDER",
+          payload: response.success().data,
+        });
         setLoadingDelete(false);
-        showToast("Se ha vaciado el carrito")
+        showToast("Se ha vaciado el carrito");
       } else {
         setLoadingDelete(false);
         showToast("Ha ocurrido un error al vaciar el carrito");
