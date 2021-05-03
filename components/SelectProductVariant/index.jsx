@@ -41,7 +41,7 @@ const Variant = ({ variant, current = false, handleClick }) => {
         current ? "border-black" : "border-transparent"
       }`}
     >
-      {variant.attributes?.options_text}
+      {variant.attributes?.options_text || "Defecto"}
     </button>
   );
 };

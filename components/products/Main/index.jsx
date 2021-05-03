@@ -9,24 +9,23 @@ import PropTypes from "prop-types";
 import Breadcrumbs from "../../Breadcrumbs/index.jsx";
 import { useTranslation } from "next-i18next";
 import SelectProductQuantity from "../../SelectProductQuantity/index.jsx";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import getVariants from "../../../src/lib/getVariants.js";
 import SelectProductVariant from "../../SelectProductVariant/index.jsx";
-import SocialShare from "../../SocialShare/index.jsx";
 import dynamic from "next/dynamic";
-import ShippingInfo from "../../ShippingInfo/index.jsx";
-import PaymentOptions from "../../PaymentOptions/index.jsx";
-import ContactAccess from "../../ContactAccess/index.jsx";
-// import ProductGallery from "../../ProductGallery/index.jsx";
+
+const SocialShare = dynamic(() => import("../../SocialShare/index.jsx"));
+const ShippingInfo = dynamic(() => import("../../ShippingInfo/index.jsx"));
+const PaymentOptions = dynamic(() => import("../../PaymentOptions/index.jsx"));
+const ContactAccess = dynamic(() => import("../../ContactAccess/index.jsx"));
 const ProductGallery = dynamic(() => import("../../ProductGallery/index.jsx"));
+
 const MainProduct = ({ product, data }) => {
   const { t } = useTranslation("common");
   const allVariants = getVariants(data.included || [], "variant");
   const [variants, setVariants] = useState(allVariants);
   const [currentPrice, setCurrentPrice] = useState({});
-  const [optionTypes, setOptionTypes] = useState(
-    getVariants(data.included || [], "option_type")
-  );
+
   const [currentVariant, setCurrentVariant] = useState({});
 
   // Set current variant
@@ -53,7 +52,9 @@ const MainProduct = ({ product, data }) => {
       </div>
       <div className="w-full flex mt-10 space-x-12">
         <div className="w-6/12">
-          <ProductGallery images={getVariants(data.included || [], "image")} />
+          <ProductGallery 
+          product={product}
+          images={getVariants(data.included || [], "image")} />
         </div>
         <div className="w-6/12">
           <h1 className="text-5xl mb-6 font-bold">{product.attributes.name}</h1>
