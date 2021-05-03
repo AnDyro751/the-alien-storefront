@@ -10,7 +10,7 @@ import ComponentButton from "../Button";
 import CartInfo from "../Cart/CartInfo";
 import CartProduct from "../Cart/Product";
 import CartStepper from "../CartStepper";
-
+import Image from "next/image";
 const MainCart = ({ data }) => {
   const [lineItems, setLineItems] = useState(
     getVariants(data.included, "line_item")
@@ -20,7 +20,6 @@ const MainCart = ({ data }) => {
     data.data.attributes || {}
   );
   const { state, dispatch } = useContext(OrderContext);
-
 
   const onHandleDelete = (data, subtotal) => {
     let newLineItems = lineItems.filter((el) => el.id != data.id);
@@ -75,6 +74,14 @@ const MainCart = ({ data }) => {
             <h1 className="text-4xl w-full font-medium">
               Tu carrito está vacío
             </h1>
+            <div className="relative h-60 w-full my-20">
+              <Image
+                src="v1620062669/kingdom-list-is-empty_iab9dw.png"
+                layout="fill"
+                quality={50}
+                objectFit="contain"
+              />
+            </div>
           </div>
           <div className="flex mt-12">
             <Link href={`/products`}>
