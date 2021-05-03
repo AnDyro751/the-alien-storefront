@@ -41,7 +41,7 @@ const MainProduct = ({ product, data }) => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full mt-10 md:mt-0">
         <Breadcrumbs
           keys={[
             { text: t("breadcrumbs.home"), href: "/" },
@@ -50,19 +50,22 @@ const MainProduct = ({ product, data }) => {
           ]}
         />
       </div>
-      <div className="w-full flex mt-10 space-x-12">
-        <div className="w-6/12">
-          <ProductGallery 
-          product={product}
-          images={getVariants(data.included || [], "image")} />
+      <div className="w-full flex flex-wrap md:flex-nowrap mt-10 space-x-0 md:space-x-12">
+        <div className="w-full md:w-6/12">
+          <ProductGallery
+            product={product}
+            images={getVariants(data.included || [], "image")}
+          />
         </div>
-        <div className="w-6/12">
-          <h1 className="text-5xl mb-6 font-bold">{product.attributes.name}</h1>
-          <h2 className="text-3xl mb-6 font-bold text-gray-800 flex items-center">
+        <div className="w-full mt-6 md:mt-0 md:w-6/12">
+          <h1 className="text-3xl md:text-5xl mb-4 md:mb-6 font-bold">
+            {product.attributes.name}
+          </h1>
+          <h2 className="text-lg md:text-3xl mb-4 md:mb-6 font-bold text-gray-800 flex items-center">
             {currentPrice?.attributes?.currency}{" "}
             {currentPrice?.attributes?.display_price}
             {currentPrice?.attributes?.display_compare_at_price && (
-              <span className="ml-4 text-2xl text-red-700 line-through select-none">
+              <span className="ml-4 text-base md:text-2xl text-red-700 line-through select-none">
                 {currentPrice?.attributes?.display_compare_at_price}
               </span>
             )}
@@ -83,9 +86,9 @@ const MainProduct = ({ product, data }) => {
           <PaymentOptions />
         </div>
       </div>
-      <div className="w-full mt-20 flex space-x-12">
-        <div className="w-8/12"></div>
-        <div className="w-4/12">
+      <div className="w-full mt-10 md:mt-20 flex flex-wrap md:flex-nowrap md:space-x-12">
+        <div className="w-full md:w-8/12"></div>
+        <div className="w-full md:w-4/12">
           <ContactAccess />
         </div>
       </div>

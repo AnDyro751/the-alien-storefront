@@ -42,7 +42,7 @@ const ProductGallery = ({ images, product }) => {
   return (
     <>
       <div className="w-full relative">
-        <div className="relative w-full h-xxl bg-white rounded">
+        <div className="relative w-full h-96 md:h-xxl bg-white rounded">
           <div className="keen-slider h-full w-full" ref={sliderRef}>
             {currentImages.map((image, i) => (
               <div key={i} className="keen-slider__slide cursor-pointer">

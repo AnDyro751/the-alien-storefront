@@ -11,7 +11,7 @@ import { useTranslation } from "next-i18next";
 const ShippingInfo = () => {
   const { t } = useTranslation("common");
   return (
-    <div className="w-full mt-8 space-y-8">
+    <div className="w-full mt-4 md:mt-8 space-y-4 md:space-y-8">
       <div className="w-full flex items-center space-x-4">
         <FaUnlockAlt className="text-gray-800" />
         &#160;
