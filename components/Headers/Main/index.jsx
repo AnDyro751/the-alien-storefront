@@ -41,7 +41,7 @@ const MainHeader = ({ transparent }) => {
   return (
     <div className={mainHeaderClass}>
       <div className="w-11/12 items-center py-3 mx-auto flex">
-        <div className="w-2/12 relative">
+        <div className="w-6/12 relative">
           {/* <Link href={"/"}> */}
           <div className="relative w-14 h-14" title={t("storeName")}>
             <Image
@@ -55,7 +55,7 @@ const MainHeader = ({ transparent }) => {
           </div>
           {/* </Link> */}
         </div>
-        <div className="w-8/12 flex justify-center items-center space-x-12">
+        <div className="w-8/12 hidden md:flex justify-center items-center space-x-12">
           <div className="">
             <Link href={"/"}>
               <a className="w-auto px-4 py-2 hover:border-black border-b-2 border-transparent">
@@ -85,7 +85,7 @@ const MainHeader = ({ transparent }) => {
             </Link>
           </div>
         </div>
-        <div className="w-2/12 flex justify-end items-center space-x-3">
+        <div className="w-6/12 md:w-2/12 flex justify-end items-center space-x-3">
           <div className="w-1/3 flex items-center justify-center">
             <HeaderChangeOptions />
           </div>
