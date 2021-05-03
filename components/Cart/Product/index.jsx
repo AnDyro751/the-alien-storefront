@@ -3,18 +3,19 @@ import { BsTrash } from "react-icons/bs";
 import { useTranslation } from "next-i18next";
 import Input from "../../Input";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import client from "../../../src/client";
 import getCookie from "../../../src/lib/getCookie";
 import { COOKIE_SPREE_ORDER } from "../../../src/lib/apiConstants";
 import showToast from "../../../src/lib/showToast";
-import getVariants from "../../../src/lib/getVariants";
-import { reposition } from "toastify-js";
 import getRecord from "../../../src/lib/getRecord";
+import { OrderContext } from "../../../src/stores/useOrder";
 const CartProduct = ({ data, handleDelete, handleUpdate }) => {
   const { t } = useTranslation("common");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [productData, setProductData] = useState(data);
+
+  const { state, dispatch } = useContext(OrderContext);
 
   const handleDeleteProduct = async () => {
     setLoadingDelete(true);
@@ -26,7 +27,7 @@ const CartProduct = ({ data, handleDelete, handleUpdate }) => {
       {
         fields: {
           cart:
-            "display_total,currency,display_item_total,display_pre_tax_item_amount,display_pre_tax_total,number,state",
+            "display_total,currency,item_count,display_item_total,display_pre_tax_item_amount,display_pre_tax_total,number,state",
         },
       }
     );
@@ -56,7 +57,7 @@ const CartProduct = ({ data, handleDelete, handleUpdate }) => {
             quantity: newValue,
             fields: {
               cart:
-                "display_total,currency,display_item_total,display_pre_tax_item_amount,display_pre_tax_total,number,state",
+                "display_total,currency,item_count,display_item_total,display_pre_tax_item_amount,display_pre_tax_total,number,state",
             },
             include: "line_items",
           }
@@ -69,10 +70,11 @@ const CartProduct = ({ data, handleDelete, handleUpdate }) => {
               getRecord(response.success().included, productData.id)
             );
             handleUpdate(response.success());
-            // console.log(
-            //   getRecord(response.success().included, productData.id),
-            //   "RECORD NEW"
-            // );
+            console.log(response.success().data);
+            dispatch({
+              type: "UPDATE_ORDER",
+              payload: response.success().data,
+            });
           } else {
             showToast("Ha ocurrido un error al actualizar el elemento");
           }
