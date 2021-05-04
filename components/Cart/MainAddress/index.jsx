@@ -33,9 +33,10 @@ const MainAddress = ({ data }) => {
       </div>
       <h1 className="text-3xl py-8 font-medium">Shipping address</h1>
       <div className="w-full flex md:space-x-8">
-        <div className="w-full md:w-7/12 rounded-md shadow-lg bg-white p-4 md:p-8">
+        <div className="w-full md:w-7/12">
           <AddressForm countries={countries} />
         </div>
+        
       </div>
     </div>
   );

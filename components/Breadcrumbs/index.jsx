@@ -31,7 +31,7 @@ const Breadcrumbs = ({ keys }) => {
   );
 };
 
-Breadcrumbs.proptYpes = {
+Breadcrumbs.propTypes = {
   keys: PropTypes.array.isRequired,
 };
 

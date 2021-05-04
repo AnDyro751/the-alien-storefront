@@ -9,6 +9,7 @@ const ComponentButton = ({
   color,
   handleClick,
   loading,
+  type = "button",
 }) => {
   const classButton = classnames({
     "relative px-8 font-medium focus:outline-none py-3 shadow-sm transition duration-75 rounded-md": true,
@@ -26,7 +27,12 @@ const ComponentButton = ({
     );
   } else {
     return (
-      <button disabled={loading} onClick={handleClick} className={classButton}>
+      <button
+        type={type}
+        disabled={loading}
+        onClick={handleClick}
+        className={classButton}
+      >
         {text}
       </button>
     );
