@@ -20,19 +20,13 @@ const ComponentButton = ({
   });
   if (href) {
     return (
-      <div className="flex w-full">
-        <Link href={href}>
-          <a className={classButton}>{text}</a>
-        </Link>
-      </div>
+      <Link href={href}>
+        <a className={classButton}>{text}</a>
+      </Link>
     );
   } else {
     return (
-      <button
-        disabled={loading}
-        onClick={handleClick}
-        className={classButton}
-      >
+      <button disabled={loading} onClick={handleClick} className={classButton}>
         {text}
       </button>
     );

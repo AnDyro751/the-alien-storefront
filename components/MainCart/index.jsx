@@ -112,18 +112,24 @@ const MainCart = ({ data }) => {
           ))}
         </div>
         <CartInfo data={subtotalAttributes} />
-        <div className="w-full flex justify-end mt-10 space-x-8">
-          <ComponentButton
-            handleClick={onHandleEmptyCart}
-            text="Vaciar carrito"
-            color="secondary"
-            loading={loadingDelete}
-          />
-          <ComponentButton
-            href={"/cart/address"}
-            text="Siguiente"
-            color="primary"
-          />
+        <div className="w-full flex md:flex-nowrap md:flex-row flex-col-reverse flex-wrap justify-end items-center mt-10 md:space-x-8">
+          <div className="w-full md:w-auto flex md:block mt-4 md:mt-0">
+            <ComponentButton
+              handleClick={onHandleEmptyCart}
+              text="Vaciar carrito"
+              color="secondary"
+              className="w-full"
+              loading={loadingDelete}
+            />
+          </div>
+          <div className="w-full md:w-auto flex md:block text-center">
+            <ComponentButton
+              href={"/cart/address"}
+              text="Siguiente"
+              className="w-full"
+              color="primary"
+            />
+          </div>
         </div>
       </div>
     </div>
