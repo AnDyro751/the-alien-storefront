@@ -10,6 +10,7 @@ const Input = ({
   defaultValue = "",
   className = "",
   onBlur = null,
+  error = null,
 }) => {
   return (
     <div className="w-full">
@@ -35,6 +36,8 @@ const Input = ({
           }`}
         />
       )}
+      {/* <div className="h-2">{error && error()}</div> */}
+      <p className="text-red-500 h-4 text-sm mt-2">{error}</p>
       {textarea && (
         <textarea
           required={required}
