@@ -9,6 +9,7 @@ import getCookie from "../../../src/lib/getCookie";
 import showToast from "../../../src/lib/showToast";
 import { COOKIE_SPREE_ORDER } from "../../../src/lib/apiConstants";
 import SelectShippingRate from "../../SelectShippingRate";
+import Router from "next/router";
 
 const AddressForm = ({ countries }) => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -93,6 +94,7 @@ const AddressForm = ({ countries }) => {
         },
         {
           order: {
+            email: formik.values.email,
             ship_address_attributes: {
               firstname: formik.values.firstname,
               lastname: formik.values.lastname,
@@ -104,12 +106,12 @@ const AddressForm = ({ countries }) => {
               country_iso: selectedCountry,
             },
           },
+          fields: "total",
         }
       );
       setLoading(false);
       if (response.isSuccess()) {
-        console.log(response.success(), "SUCCESS ADDRESS");
-        handleGetShippings();
+        Router.push("/cart/delivery");
       } else {
         console.log("FAIL", response.fail());
         showToast("Ha ocurrido un error al actualizar el checkout");
@@ -117,24 +119,6 @@ const AddressForm = ({ countries }) => {
     } catch (error) {
       setLoading(false);
       showToast("Ha ocurrido un error al actualizar el checkout");
-    }
-  };
-
-  const handleGetShippings = async () => {
-    const response = await client.checkout.shippingMethods(
-      {
-        orderToken: getCookie(document.cookie, COOKIE_SPREE_ORDER),
-      },
-      {
-        include: "shipping_rates",
-      }
-    );
-
-    if (response.isSuccess()) {
-      setShippingRates(response.success().included);
-      console.log(response.success(), "SUCCESS SHI");
-    } else {
-      showToast("Ha ocurrido un error al cargar los métodos de envío");
     }
   };
 
@@ -148,7 +132,6 @@ const AddressForm = ({ countries }) => {
 
     if (response.isSuccess()) {
       setLoading(false);
-      // console.log(response.success()., "Country");
       setStates(getVariants(response.success().included || [], "state"));
     } else {
       setLoading(false);
@@ -265,13 +248,9 @@ const AddressForm = ({ countries }) => {
             loading={loading}
             className="w-full md:w-auto"
             text="Siguiente: Método de envío"
-            // handleClick={onClickNext}
           />
         </div>
       </form>
-      <SelectShippingRate
-        shippingRates={getVariants(shippingRates, "shipping_rate")}
-      />
     </>
   );
 };

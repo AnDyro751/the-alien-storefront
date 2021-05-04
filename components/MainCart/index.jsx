@@ -113,7 +113,7 @@ const MainCart = ({ data }) => {
         </div>
         <CartInfo data={subtotalAttributes} />
         <div className="w-full flex md:flex-nowrap md:flex-row flex-col-reverse flex-wrap justify-end items-center mt-10 md:space-x-8">
-          <div className="w-full md:w-auto flex md:block mt-4 md:mt-0">
+          <div className="w-full md:w-auto flex md:block ">
             <ComponentButton
               handleClick={onHandleEmptyCart}
               text="Vaciar carrito"

@@ -25,6 +25,8 @@ export async function getServerSideProps({ locale, req }) {
         : null,
     },
     {
+      fields:
+        "display_item_total,display_pre_tax_item_amount,display_pre_tax_total,display_ship_total,display_total,email",
       include: "line_items",
       currency: getCookie(req?.headers?.cookie || "", COOKIE_CURRENCY_NAME),
     }

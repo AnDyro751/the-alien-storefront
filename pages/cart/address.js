@@ -2,7 +2,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import MainAddress from "../../components/Cart/MainAddress";
 import MainLayout from "../../components/Layouts/Main";
 import client from "../../src/client";
-import { COOKIE_CURRENCY_NAME } from "../../src/lib/apiConstants";
+import {
+  COOKIE_CURRENCY_NAME,
+  COOKIE_SPREE_ORDER,
+} from "../../src/lib/apiConstants";
 import getCookie from "../../src/lib/getCookie";
 
 const AddressCartPage = () => {
@@ -14,7 +17,7 @@ const AddressCartPage = () => {
       <style jsx global>{`
         body,
         html {
-          background-color: rgba(243, 244, 246,1) !important;
+          background-color: rgba(243, 244, 246, 1) !important;
         }
       `}</style>
     </>
@@ -28,12 +31,14 @@ export async function getServerSideProps({ locale, req }) {
     {
       orderToken: req
         ? req.headers
-          ? getCookie(req.headers.cookie || "", "X-Spree-Order-Token")
+          ? getCookie(req.headers.cookie || "", COOKIE_SPREE_ORDER)
           : null
         : null,
     },
     {
       include: "line_items",
+      fields:
+        "display_item_total,display_pre_tax_item_amount,display_pre_tax_total,display_ship_total,display_total,email",
       currency: getCookie(req?.headers?.cookie || "", COOKIE_CURRENCY_NAME),
     }
   );

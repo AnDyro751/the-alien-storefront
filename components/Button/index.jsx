@@ -12,7 +12,7 @@ const ComponentButton = ({
   type = "button",
 }) => {
   const classButton = classnames({
-    "relative px-8 font-medium focus:outline-none py-3 shadow-sm transition duration-75 rounded-md": true,
+    "relative px-8 font-medium focus:outline-none py-3 h-12 shadow-sm transition duration-75 rounded-md": true,
     [`${className}`]: true,
     "main-shadow": color === "secondary" && !loading,
     "bg-secondary": color === "secondary",
