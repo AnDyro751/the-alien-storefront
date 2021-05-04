@@ -1,9 +1,12 @@
 import Input from "../../Input";
 import InputSelect from "../../InputSelect";
-import { ErrorMessage, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import ComponentButton from "../../Button";
+import client from "../../../src/client";
+import { useState } from "react";
 
 const AddressForm = ({ countries }) => {
+  const [selectedCountry, setSelectedCountry] = useState("");
   const validate = (values) => {
     const errors = {};
     // name
@@ -56,14 +59,46 @@ const AddressForm = ({ countries }) => {
       cp: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      handleUpdateAddress();
     },
     validate: validate,
   });
 
-  const onClickNext = () => {
-    alert("HOLA");
+  const handleUpdateAddress = async () => {
+    const response = await client.checkout.orderUpdate(
+      {
+        orderToken: getCookie(document.cookie, COOKIE_SPREE_ORDER),
+      },
+      {
+        order: {
+          ship_address_attributes: {
+            firstname: formik.values.name,
+            // lastname: "Snow",
+            address1: formik.values.address,
+            city: formik.values.city,
+            // phone: "3014445002",
+            zipcode: formik.values.cp,
+            state_name: "MD",
+            country_iso: selectedCountry,
+          },
+        },
+      }
+    );
   };
+
+  const onChangeCountry = async (e) => {
+    setSelectedCountry(e.target.value || "");
+    const response = await client.countries.show(e.target.value, {
+      include: "states",
+    });
+
+    if (response.isSuccess()) {
+      console.log(response.success(), "Country");
+    } else {
+      showToast("Ha ocurrido un error al buscar el país");
+    }
+  };
+
   return (
     <form onSubmit={formik.handleSubmit} className="space-y-4">
       <Input
@@ -116,6 +151,7 @@ const AddressForm = ({ countries }) => {
       </div>
       <div className="w-full">
         <InputSelect
+          handleChange={onChangeCountry}
           options={countries}
           label="Country"
           placeholder="Select country"

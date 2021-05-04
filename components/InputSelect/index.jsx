@@ -25,7 +25,7 @@ export default function InputSelect({
       >
         {placeholder && <option value={""}>{placeholder}</option>}
         {options.map((option, i) => (
-          <option key={i} value={option.id}>
+          <option key={i} value={option.attributes?.iso_name}>
             {option.attributes?.name}
           </option>
         ))}
