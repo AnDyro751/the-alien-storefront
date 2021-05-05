@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { BsCheck } from "react-icons/bs";
 import ComponentButton from "../Button";
@@ -7,7 +7,11 @@ import client from "../../src/client";
 import getCookie from "../../src/lib/getCookie";
 import { COOKIE_SPREE_ORDER } from "../../src/lib/apiConstants";
 import showToast from "../../src/lib/showToast";
+import Router from "next/router";
+import { getCurrentCurrency } from "../../src/lib/helpers";
+import { OrderContext } from "../../src/stores/useOrder";
 const SelectShippingRate = ({ shippingRates, data }) => {
+  const { state, dispatch } = useContext(OrderContext);
   const [currentShippingRates, setCurrentShippingRates] = useState(
     shippingRates
   );
@@ -30,9 +34,11 @@ const SelectShippingRate = ({ shippingRates, data }) => {
             },
           ],
         },
+        currency: getCurrentCurrency(state.order, document.cookie),
       }
     );
     if (response.isSuccess()) {
+      Router.push("/cart/payment");
       console.log(response.success(), "SUCCESS");
     } else {
       showToast("Ha ocurrido un error al seleccionar el método de envío");

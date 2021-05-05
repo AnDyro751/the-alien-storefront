@@ -3,15 +3,18 @@ import InputSelect from "../../InputSelect";
 import { useFormik } from "formik";
 import ComponentButton from "../../Button";
 import client from "../../../src/client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import getVariants from "../../../src/lib/getVariants";
 import getCookie from "../../../src/lib/getCookie";
 import showToast from "../../../src/lib/showToast";
 import { COOKIE_SPREE_ORDER } from "../../../src/lib/apiConstants";
 import SelectShippingRate from "../../SelectShippingRate";
 import Router from "next/router";
+import { getCurrentCurrency } from "../../../src/lib/helpers";
+import { OrderContext } from "../../../src/stores/useOrder";
 
 const AddressForm = ({ countries }) => {
+  const {state,dispatch} = useContext(OrderContext);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [states, setStates] = useState([]);
@@ -107,6 +110,7 @@ const AddressForm = ({ countries }) => {
             },
           },
           fields: "total",
+          currency: getCurrentCurrency(state.order, document.cookie),
         }
       );
       setLoading(false);
@@ -117,6 +121,7 @@ const AddressForm = ({ countries }) => {
         showToast("Ha ocurrido un error al actualizar el checkout");
       }
     } catch (error) {
+      console.log("HOLA")
       setLoading(false);
       showToast("Ha ocurrido un error al actualizar el checkout");
     }

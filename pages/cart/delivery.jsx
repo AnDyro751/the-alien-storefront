@@ -1,7 +1,10 @@
 import MainLayout from "../../components/Layouts/Main";
 import SelectShippingRate from "../../components/SelectShippingRate";
 import client from "../../src/client";
-import { COOKIE_CURRENCY_NAME, COOKIE_SPREE_ORDER } from "../../src/lib/apiConstants";
+import {
+  COOKIE_CURRENCY_NAME,
+  COOKIE_SPREE_ORDER,
+} from "../../src/lib/apiConstants";
 import getCookie from "../../src/lib/getCookie";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import getVariants from "../../src/lib/getVariants";
@@ -43,6 +46,7 @@ export async function getServerSideProps({ locale, req }) {
     {
       //   fields: "",
       include: "shipping_rates",
+      currency: getCookie(req?.headers?.cookie || "", COOKIE_CURRENCY_NAME),
     }
   );
 
