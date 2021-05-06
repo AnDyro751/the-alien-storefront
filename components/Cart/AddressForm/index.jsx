@@ -14,7 +14,7 @@ import { getCurrentCurrency } from "../../../src/lib/helpers";
 import { OrderContext } from "../../../src/stores/useOrder";
 
 const AddressForm = ({ countries }) => {
-  const {state,dispatch} = useContext(OrderContext);
+  const { state, dispatch } = useContext(OrderContext);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [states, setStates] = useState([]);
@@ -97,6 +97,16 @@ const AddressForm = ({ countries }) => {
         },
         {
           order: {
+            bill_address_attributes: {
+              firstname: formik.values.firstname,
+              lastname: formik.values.lastname,
+              address1: formik.values.address,
+              city: formik.values.city,
+              phone: formik.values.phone,
+              zipcode: formik.values.cp,
+              state_name: selectedState,
+              country_iso: selectedCountry,
+            },
             email: formik.values.email,
             ship_address_attributes: {
               firstname: formik.values.firstname,
@@ -121,7 +131,7 @@ const AddressForm = ({ countries }) => {
         showToast("Ha ocurrido un error al actualizar el checkout");
       }
     } catch (error) {
-      console.log("HOLA")
+      console.log("HOLA");
       setLoading(false);
       showToast("Ha ocurrido un error al actualizar el checkout");
     }
