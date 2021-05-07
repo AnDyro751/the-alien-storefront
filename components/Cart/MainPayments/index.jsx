@@ -1,39 +1,51 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
-import isEmpty from "lodash/isEmpty";
+import React, {useContext, useEffect, useState} from "react";
 import StripeElements from "../../StripeElements";
+// import PaypalElements from "../../PaypalElements";
+import dynamic from 'next/dynamic';
+import {OrderContext} from "../../../src/stores/useOrder";
 
-const MainPayments = ({ data }) => {
-  const [currentPaymentMethod, setPaymentMethod] = useState({});
+const PaypalElements = dynamic(() => import("../../PaypalElements"), {ssr: false})
+const MainPayments = ({data}) => {
+    //
+    // const {state, dispatch} = useContext(OrderContext);
+    //
+    // useEffect(() => {
+    //
+    // }, [state.order])
 
-  const handleSelect = (paymentMethod) => {
-    setPaymentMethod(paymentMethod);
-  };
+    function renderPaymentMethod(type) {
+        switch (type) {
+            case "Spree::Gateway::StripeElementsGateway":
+                return (<StripeElements/>);
+            case "Spree::Gateway::PayPalExpress":
+                return (<PaypalElements/>)
 
-  return (
-    <div className="w-full p-4 rounded bg-white shadow-lg">
-      <h3 className="text-2xl font-medium my-4">Select Payment Method</h3>
-      {data.map((paymentMethod, i) => (
-        <div
-          className="w-full"
-          onClick={() => handleSelect(paymentMethod)}
-          key={i}
-        >
-          {paymentMethod.attributes?.type}
+        }
+    }
+
+    return (
+        <div className="w-full p-4 rounded bg-white shadow-lg">
+            <h3 className="text-2xl font-medium my-4">Select Payment Method</h3>
+            {/*<PaypalElements/>*/}
+            {data.map((paymentmethod, i) => (
+                <div
+                    className="w-full"
+                    // onclick={() => handleselect(paymentmethod)}
+                    key={i}
+                >
+                    {renderPaymentMethod(paymentmethod.attributes?.type)}
+                </div>
+            ))}
         </div>
-      ))}
-      {!isEmpty(currentPaymentMethod) &&
-        currentPaymentMethod.attributes?.type ===
-          "Spree::Gateway::StripeElementsGateway" && <StripeElements />}
-    </div>
-  );
+    );
 };
 
 MainPayments.propTypes = {
-  data: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
 };
 
 MainPayments.defaultProps = {
-  data: [],
+    data: [],
 };
 export default MainPayments;

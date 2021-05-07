@@ -2,7 +2,7 @@ import { BiWorld } from "react-icons/bi";
 import { Popover } from "@headlessui/react";
 import HeadersChangeCurrency from "../Headers/ChangeCurrency";
 import HeadersChaneLocale from "../Headers/HeadersChaneLocale";
-const HeaderChangeOptions = () => {
+const HeaderChangeOptions = ({forceLoad}) => {
   return (
     <div className="w-full flex justify-center items-center">
       <Popover className="relative">
@@ -19,11 +19,11 @@ const HeaderChangeOptions = () => {
           <div className="space-y-4">
             <div className="">
               <p className="text-sm text-gray-700 mb-2">Idioma</p>
-              <HeadersChaneLocale />
+              <HeadersChaneLocale forceLoad={forceLoad} />
             </div>
             <div className="">
               <p className="text-sm text-gray-700 mb-2">Moneda</p>
-              <HeadersChangeCurrency />
+              <HeadersChangeCurrency forceLoad={forceLoad} />
             </div>
           </div>
         </Popover.Panel>
