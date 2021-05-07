@@ -20,6 +20,8 @@ const MainPayments = ({data}) => {
                 return (<StripeElements/>);
             case "Spree::Gateway::PayPalExpress":
                 return (<PaypalElements/>)
+            default:
+                return type
 
         }
     }

@@ -10,9 +10,9 @@ const PaypalElements = ({}) => {
     const [billingDetails, setBillingDetails] = useState("");
     // const [order,setOrder] = useState({});
 
-    useEffect(()=>{
+    useEffect(() => {
         createButton()
-    },[state.order])
+    }, [state.order])
 
 
     const createButton = () => {
@@ -20,14 +20,16 @@ const PaypalElements = ({}) => {
             document.querySelector("#paypal-button-container").innerHTML = "";
             console.log("PAYPAL")
             paypal.Buttons({
+                // vault: false,
                 createOrder: (data, actions) => createOrder(data, actions),
                 style: {
-                    layout: 'horizontal',
+                    layout: 'vertical',
                     color: 'blue',
                     shape: 'pill',
                     label: 'pay',
                     tagline: false,
-                }
+                },
+                fundingSource: "paypal"
             }).render('#paypal-button-container');
         } else {
             console.log("NO HAY PAYLE")
