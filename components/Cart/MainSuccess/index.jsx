@@ -1,8 +1,111 @@
-const MainSuccess = ({data}) => {
-    console.log(data)
+import {useContext, useEffect, useState} from "react";
+import client from "../../../src/client";
+import getQueryParams from "../../../src/lib/getQueryParams";
+import getCookie from "../../../src/lib/getCookie";
+import {COOKIE_CURRENCY_NAME, COOKIE_SPREE_ORDER, WEB_ENDPOINT} from "../../../src/lib/apiConstants";
+import {OrderContext} from "../../../src/stores/useOrder";
+import deleteCookie from "../../../src/lib/deleteCookie";
+import {getCurrentCurrency} from "../../../src/lib/helpers";
+import {cartFields} from "../../../src/lib/fields";
+import showToast from "../../../src/lib/showToast";
+import setCookie from "../../../src/lib/setCookie";
+import Image from 'next/image';
+import CartStepper from "../../CartStepper";
+import OrderData from "./OrderData";
+
+let timer;
+
+const MainSuccess = ({}) => {
+
+    const {state, dispatch} = useContext(OrderContext);
+    const [order, setOrder] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [completed, setCompleted] = useState(false);
+
+
+    useEffect(() => {
+        timer = setInterval(() => {
+            handleGetOrder()
+        }, 3000);
+        return () => clearInterval(timer);
+    }, [])
+
+    const handleGetOrder = async () => {
+        const res = await (await fetch(`${WEB_ENDPOINT}/get_order/${getQueryParams("order_number")}`)).json()
+        console.log("HANDLE get", res)
+        if (res.status === "ok") {
+            setOrder({attributes: res.order} || {});
+            if (res.order.state === "complete") {
+                setCompleted(true);
+                clearInterval(timer);
+                setLoading(false);
+                if (res.order.token === getCookie(document.cookie || "", COOKIE_SPREE_ORDER)) {
+                    handleDeleteAllSession();
+                } else {
+                    console.log("LN 35")
+                }
+            } else {
+                console.log("LN 38")
+            }
+        } else {
+            showToast("La orden no ha sido encontrada");
+            setTimeout(() => {
+                window.location = "/products";
+            }, 1500);
+        }
+    }
+
+    const handleDeleteAllSession = () => {
+        dispatch({type: "DELETE_ORDER"});
+        deleteCookie(COOKIE_SPREE_ORDER);
+        setLoading(false);
+        createNewOrder();
+    }
+
+    const createNewOrder = async () => {
+        let response = await client.cart.create(
+            {},
+            {
+                currency: getCurrentCurrency(state.order, document.cookie),
+                fields: {
+                    cart: cartFields,
+                },
+            }
+        );
+        if (response.isFail()) {
+            showToast("Ha ocurrido un error al crear la nueva orden");
+        } else {
+            setOrder(response.success().data);
+            dispatch({type: "UPDATE_ORDER", payload: response.success().data});
+            setCookie(
+                "X-Spree-Order-Token",
+                response.success().data.attributes.token,
+                30
+            );
+        }
+    }
+
     return (
-        <div className="w-full">
-            <h1>Success page</h1>
+        <div className="w-11/12 mx-auto">
+            <div className="py-20">
+                <CartStepper currentStep={completed ? "confirm" : "payment"}/>
+            </div>
+            {
+                loading &&
+                <div className={"h-96 flex justify-center items-center"}>
+                    <div className="h-20 w-20 relative">
+                        <Image src={"/v1620345118/icons8-loading-infinity_psllfe.gif"}
+                               layout="fill"
+                               objectFit={"contain"}
+                        />
+                    </div>
+                </div>
+                // <h2>Cargando....</h2>
+            }
+            {
+                !loading &&
+                <OrderData order={order}/>
+            }
         </div>
     )
 }

@@ -17,6 +17,7 @@
     "@stripe/stripe-js": "^1.14.0",
     "algoliasearch": "^4.9.1",
     "classnames": "^2.3.1",
+    "cookies": "^0.8.0",
     "cross-env": "^7.0.3",
     "formik": "^2.2.6",
     "instantsearch.css": "^7.4.5",
