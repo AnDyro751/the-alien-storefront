@@ -6,6 +6,7 @@ import {COOKIE_CURRENCY_NAME, COOKIE_SPREE_ORDER} from "../src/lib/apiConstants"
 import getCookie from "../src/lib/getCookie";
 import withSession from "../src/lib/session";
 import {parseCookies} from "nookies";
+import getCookieOrder from "../src/lib/getCookieOrder";
 
 const CartPage = ({data}) => {
     return (
@@ -32,7 +33,7 @@ const CartPage = ({data}) => {
 export const getServerSideProps = async function (props) {
     const {locale, req, res, dataLocale} = props;
     console.log(req.headers, "HEADER");
-    const cookieOrder = getCookie(req.headers.cookie || "", COOKIE_SPREE_ORDER)
+    const cookieOrder = getCookieOrder(req?.headers?.cookie || "")
 
     if (!cookieOrder) {
         return {
