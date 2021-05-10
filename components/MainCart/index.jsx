@@ -16,6 +16,7 @@ const MainCart = ({ data }) => {
   const [lineItems, setLineItems] = useState(
     getVariants(data.included, "line_item")
   );
+  console.log(getVariants(data.included, "line_item"), "VARIANT")
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [subtotalAttributes, setSubtotalAttributes] = useState(
     data.data.attributes || {}

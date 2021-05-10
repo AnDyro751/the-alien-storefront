@@ -83,7 +83,8 @@ MyApp.getInitialProps = async (appContext) => {
                         res.statusCode = 307
                         res.setHeader('Location', appContext.ctx.pathname);
                         setCookie(appContext?.ctx, COOKIE_SPREE_ORDER, createCart.success().data.attributes.token, {
-                            httpOnly: false // true by default
+                            httpOnly: false, // true by default
+                            path: "/"
                         })
                         res.end()
                         order = createCart.success().data
@@ -97,7 +98,8 @@ MyApp.getInitialProps = async (appContext) => {
                 res.statusCode = 307
                 res.setHeader('Location', appContext.ctx.pathname)
                 setCookie(appContext?.ctx, COOKIE_SPREE_ORDER, createCart.success().data.attributes.token, {
-                    httpOnly: false // true by default
+                    httpOnly: false, // true by default
+                    path: "/"
                 })
                 res.end()
                 order = createCart.success().data

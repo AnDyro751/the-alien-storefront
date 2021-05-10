@@ -9,6 +9,7 @@ import {parseCookies} from "nookies";
 import getCookieOrder from "../src/lib/getCookieOrder";
 
 const CartPage = ({data}) => {
+    console.log(data, "DATA")
     return (
         <MainLayout>
             <MainCart data={data}/>
@@ -17,22 +18,8 @@ const CartPage = ({data}) => {
 };
 
 
-// export const getServerSideProps = withSession(async function ({req, res, locale}) {
-//     const user = req.session.get('user')
-//
-//     console.log("USER", user)
-//
-//     return {
-//         props: {
-//             user: req.session.get('user') || null,
-//             ...(await serverSideTranslations(locale, ["common", "cart"])),
-//         },
-//     }
-// })
-
 export const getServerSideProps = async function (props) {
-    const {locale, req, res, dataLocale} = props;
-    console.log(req.headers, "HEADER");
+    const {locale, req} = props;
     const cookieOrder = getCookieOrder(req?.headers?.cookie || "")
 
     if (!cookieOrder) {
@@ -61,6 +48,9 @@ export const getServerSideProps = async function (props) {
             notFound: true,
         };
     }
+
+    console.log(responseCart.success(), "SUCCESS")
+
     return {
         props: {
             data: responseCart.success(),
