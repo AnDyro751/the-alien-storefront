@@ -70,6 +70,7 @@ export async function getServerSideProps({locale, req}) {
             )
         ).json();
         console.log(response, "RESPONSE");
+        console.log("LUK")
     } catch (error) {
         console.log("ER", error);
     }

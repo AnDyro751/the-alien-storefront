@@ -101,18 +101,21 @@ MyApp.getInitialProps = async (appContext) => {
 };
 
 const createNewCart = async (cookies) => {
+    console.log("HOLA")
     let order = await client.cart.create(
         {},
         {
-            currency: getCurrentCurrency(
-                cookies || "",
-                COOKIE_CURRENCY_NAME
-            ),
+            currency: getCurrentCurrency(null, cookies),
             fields: {
                 cart: cartFields,
             },
         }
     );
+    if (order.isFail()) {
+        console.log(order.fail(), "FAIL cart")
+    } else {
+        console.log(order, "HOLA")
+    }
     return order;
 }
 
