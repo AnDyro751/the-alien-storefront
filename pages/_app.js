@@ -4,7 +4,7 @@ import "../styles/globals.css";
 import "../styles/general.css"
 import Router from "next/router";
 import NProgress from "nprogress";
-import {setCookie} from 'nookies';
+import {setCookie, destroyCookie} from 'nookies';
 import {appWithTranslation} from "next-i18next";
 import client from "../src/client";
 import getCookie from "../src/lib/getCookie";
@@ -14,13 +14,16 @@ import {getCurrentCurrency} from "../src/lib/helpers";
 import {COOKIE_CURRENCY_NAME, COOKIE_SPREE_ORDER} from "../src/lib/apiConstants";
 import {LocaleContextProvider} from "../src/stores/useLocale";
 import includes from "lodash/includes";
+import {serialize} from 'cookie';
+import withSession from "../src/lib/session";
 // import {PayPalScriptProvider} from "@paypal/react-paypal-js";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-function MyApp({Component, pageProps, dataOrder, dataLocale}) {
+function MyApp(props) {
+    const {Component, pageProps, dataOrder, dataLocale} = props;
     const data = dataOrder;
     return (
         <OrderContextProvider
@@ -35,7 +38,7 @@ function MyApp({Component, pageProps, dataOrder, dataLocale}) {
             >
                 {/*<PayPalScriptProvider*/}
                 {/*    options={{"client-id": "AZlVfjh-dmrlQgZLl7NGz5oEEK9fkR8o-ZLatcVBF5dkiEvp0kmr_9l7IRvPdPZ5r6krEiaQ7WEwO7m9"}}>*/}
-                <Component {...pageProps} />
+                <Component {...pageProps} dataLocale={dataLocale}/>
                 {/*</PayPalScriptProvider>*/}
             </LocaleContextProvider>
         </OrderContextProvider>
@@ -43,9 +46,10 @@ function MyApp({Component, pageProps, dataOrder, dataLocale}) {
 }
 
 MyApp.getInitialProps = async (appContext) => {
+    // console.log(, "REQ")
     const appProps = await App.getInitialProps(appContext);
-    // const cookies = new Cookies(appContext.ctx.req, appContext.ctx.res)
     if (appContext) {
+        const res = appContext.ctx.res;
         const cookieOrder = getCookie(
             appContext?.ctx?.req?.headers?.cookie || "",
             COOKIE_SPREE_ORDER
@@ -73,39 +77,45 @@ MyApp.getInitialProps = async (appContext) => {
             }
             if (dataOrder.isFail()) {
                 if (dataOrder.fail().message.includes("404")) {
-                    let createCart = await createNewCart(appContext?.ctx?.req?.headers?.cookie || "");
+                    destroyCookie(appContext.ctx, COOKIE_SPREE_ORDER);
+                    let createCart = await createNewCart(cookieCurrency);
                     if (createCart.success()) {
+                        res.statusCode = 307
+                        res.setHeader('Location', appContext.ctx.pathname);
                         setCookie(appContext?.ctx, COOKIE_SPREE_ORDER, createCart.success().data.attributes.token, {
                             httpOnly: false // true by default
                         })
+                        res.end()
                         order = createCart.success().data
                     }
                 }
             }
         } else {
-            let createCart = await createNewCart(appContext?.ctx?.req?.headers?.cookie || "");
+            destroyCookie(appContext.ctx, COOKIE_SPREE_ORDER);
+            let createCart = await createNewCart(cookieCurrency);
             if (createCart.success()) {
+                res.statusCode = 307
+                res.setHeader('Location', appContext.ctx.pathname)
                 setCookie(appContext?.ctx, COOKIE_SPREE_ORDER, createCart.success().data.attributes.token, {
-                    httpOnly: false,
-                    maxAge: 30 * 24 * 60 * 60,
+                    httpOnly: false // true by default
                 })
+                res.end()
                 order = createCart.success().data
             }
         }
 
         // return {...appProps, dataLocale}
-        return {dataOrder: order, ...appProps, dataLocale};
+        return {dataOrder: order, dataLocale, ...appProps};
     } else {
         return {...appProps}
     }
 };
 
-const createNewCart = async (cookies) => {
-    console.log("HOLA")
+const createNewCart = async (currency) => {
     let order = await client.cart.create(
         {},
         {
-            currency: getCurrentCurrency(null, cookies),
+            currency: currency,
             fields: {
                 cart: cartFields,
             },
@@ -114,7 +124,7 @@ const createNewCart = async (cookies) => {
     if (order.isFail()) {
         console.log(order.fail(), "FAIL cart")
     } else {
-        console.log(order, "HOLA")
+        console.log(order.success().data, "DATA ORDER")
     }
     return order;
 }

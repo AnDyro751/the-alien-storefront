@@ -92,7 +92,6 @@ export async function getServerSideProps({locale, req}) {
     );
     // console.log(response === null, resCart.isFail())
     if (response === null || resCart.isFail()) {
-        console.log(resCart.fail());
         return {
             notFound: true,
         };
