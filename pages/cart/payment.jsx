@@ -24,8 +24,8 @@ const CartDeliveryPage = ({data}) => {
     return (
         <MainLayout forceLoad={true}>
             <Head>
-                <script
-                    src={`https://www.paypal.com/sdk/js?client-id=AZlVfjh-dmrlQgZLl7NGz5oEEK9fkR8o-ZLatcVBF5dkiEvp0kmr_9l7IRvPdPZ5r6krEiaQ7WEwO7m9&currency=${getCurrentCurrency(state.order)}`}/>
+                {/*<script*/}
+                {/*    src={`https://www.paypal.com/sdk/js?client-id=AZlVfjh-dmrlQgZLl7NGz5oEEK9fkR8o-ZLatcVBF5dkiEvp0kmr_9l7IRvPdPZ5r6krEiaQ7WEwO7m9&currency=${getCurrentCurrency(state.order)}`}/>*/}
             </Head>
             <div className="w-full py-20">
                 <CartStepper currentStep="payment"/>

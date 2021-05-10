@@ -8,11 +8,26 @@ const PaypalElements = ({}) => {
     const [paypalErrorMessage, setPaypalErrorMessage] = useState("");
     const [orderID, setOrderID] = useState(false);
     const [billingDetails, setBillingDetails] = useState("");
+    const [sdkReady, setSdkReady] = useState(false);
     // const [order,setOrder] = useState({});
 
     useEffect(() => {
-        createButton()
-    }, [state.order])
+        loadPaypal()
+        // createButton();
+    }, [])
+
+    const loadPaypal = () => {
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = `https://www.paypal.com/sdk/js?client-id=AZlVfjh-dmrlQgZLl7NGz5oEEK9fkR8o-ZLatcVBF5dkiEvp0kmr_9l7IRvPdPZ5r6krEiaQ7WEwO7m9&currency=${getCurrentCurrency(state.order)}`;
+        script.async = true;
+        script.onload = () => {
+            setSdkReady(true);
+            createButton()
+            // console.log(window.paypal);
+        };
+        document.body.appendChild(script);
+    }
 
 
     const createButton = () => {
