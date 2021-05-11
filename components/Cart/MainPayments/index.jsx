@@ -6,6 +6,7 @@ import {OrderContext} from "../../../src/stores/useOrder";
 // import StripeElements from "../../StripeElements";
 const StripeElements = dynamic(() => import("../../StripeElements"), {ssr: false})
 const PaypalElements = dynamic(() => import("../../PaypalElements"), {ssr: false})
+const MercadopagoElements = dynamic(() => import("../../MercadopagoElements"), {ssr: false})
 const MainPayments = ({data}) => {
     //
     // const {state, dispatch} = useContext(OrderContext);
@@ -20,6 +21,8 @@ const MainPayments = ({data}) => {
                 return (<StripeElements/>);
             case "Spree::Gateway::PayPalExpress":
                 return (<PaypalElements/>)
+            case "Spree::Gateway::Mercadopago":
+                return(<MercadopagoElements />)
             default:
                 return type
 

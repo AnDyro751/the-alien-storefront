@@ -17,8 +17,10 @@ const PageSuccess = ({}) => {
 export async function getServerSideProps({locale, req, query}) {
     if (!query.order_number) {
         return {
-            redirect: "/",
-            permanent: false
+            redirect: {
+                destination: "/",
+                permanent: false
+            }
         }
     }
 
@@ -29,8 +31,6 @@ export async function getServerSideProps({locale, req, query}) {
         },
     };
 }
-
-
 
 
 export default PageSuccess
