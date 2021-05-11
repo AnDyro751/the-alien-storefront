@@ -2,7 +2,7 @@ import client from '@mailchimp/mailchimp_marketing'
 import isEmpty from 'lodash/isEmpty';
 
 client.setConfig({
-    apiKey: "75af2ebd2f919ea0e436e8f218a90968-us4",
+    apiKey: process.env.MAILCHIMP_API_KEY,
     server: "us4",
 });
 

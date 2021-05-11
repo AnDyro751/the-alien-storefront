@@ -7,7 +7,6 @@ const Input = ({
                    handleChange,
                    name,
                    required = false,
-                   defaultValue = "",
                    className = "",
                    onBlur = null,
                    error = null,
@@ -26,7 +25,6 @@ const Input = ({
                     onBlur={(e) => {
                         onBlur ? onBlur(e) : null;
                     }}
-                    defaultValue={defaultValue || ""}
                     required={required}
                     name={name}
                     onChange={handleChange}
@@ -39,7 +37,6 @@ const Input = ({
                     }`}
                 />
             )}
-            {/* <div className="h-2">{error && error()}</div> */}
             {
                 withoutError && <p className="text-red-500 h-4 text-sm mt-2">{error}</p>
             }
@@ -52,7 +49,7 @@ const Input = ({
                     rows={8}
                     className="p-3 w-full mt-2 rounded bg-white border resize-none"
                     placeholder={placehoder}
-                ></textarea>
+                />
             )}
         </div>
     );
