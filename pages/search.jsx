@@ -7,8 +7,8 @@ import {useTranslation} from "next-i18next";
 import {useEffect, useState} from "react";
 
 const searchClient = algoliasearch(
-    process.env.ALGOLIA_APP_ID,
-    process.env.ALGOLIA_API_KEY
+    process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+    process.env.NEXT_PUBLIC_ALGOLIA_API_KEY
 );
 
 const SearchPage = ({locale}) => {
@@ -64,9 +64,8 @@ const SearchPage = ({locale}) => {
 };
 
 const Hits = ({hits}) => {
-    console.log(hits);
     return (
-        <div className="flex">
+        <div className="grid w-full grid-cols-1 md:grid-cols-4 gap-4 mt-10">
             {hits.map((hit, i) => (
                 <HitSearchComponent hit={hit} key={i}/>
             ))}
