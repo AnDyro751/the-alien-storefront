@@ -12,11 +12,13 @@ import setCookie from "../../../src/lib/setCookie";
 import Image from 'next/image';
 import CartStepper from "../../CartStepper";
 import OrderData from "./OrderData";
+import {useRouter} from 'next/router'
 
 let timer;
 
-const MainSuccess = ({}) => {
-
+const MainSuccess = ({payment_type}) => {
+    console.log(payment_type)
+    const router = useRouter()
     const {state, dispatch} = useContext(OrderContext);
     const [order, setOrder] = useState({});
     const [loading, setLoading] = useState(true);
@@ -25,12 +27,39 @@ const MainSuccess = ({}) => {
 
     useEffect(() => {
         timer = setInterval(() => {
-            handleGetOrder()
+            if (payment_type === "stripe") {
+                handleGetStripeOrder()
+            } else {
+                completeMercadoOrder();
+            }
         }, 3000);
         return () => clearInterval(timer);
-    }, [])
+    }, []);
 
-    const handleGetOrder = async () => {
+    const completeMercadoOrder = async () => {
+        const {order_number, payment_id} = router.query
+        try {
+            const res = await (await fetch(`${WEB_ENDPOINT}/mercado_pago_complete`, {
+                body: JSON.stringify({
+                    order_number: order_number,
+                    payment_id: payment_id
+                }),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })).json()
+            if (res.success) {
+                clearInterval(timer);
+                setCompleted(true);
+                handleDeleteAllSession();
+            }
+        } catch (e) {
+            console.log("ERROR", e)
+        }
+    }
+
+    const handleGetStripeOrder = async () => {
         const res = await (await fetch(`${WEB_ENDPOINT}/get_order/${getQueryParams("order_number")}`)).json()
         console.log("HANDLE get", res)
         if (res.status === "ok") {
@@ -80,8 +109,9 @@ const MainSuccess = ({}) => {
             setCookie(
                 "X-Spree-Order-Token",
                 response.success().data.attributes.token,
-                30
+                30,
             );
+            window.location = "/";
         }
     }
 
