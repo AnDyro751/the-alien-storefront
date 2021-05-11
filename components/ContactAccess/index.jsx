@@ -5,7 +5,7 @@ const ContactAccess = () => {
   const { t } = useTranslation("common");
 
   return (
-    <div className="w-full relative h-72 shadow-sm bg-gray-200 rounded">
+    <div className="w-full relative h-80 shadow-lg bg-gray-200 rounded">
       <Image
         layout="fill"
         className="rounded"

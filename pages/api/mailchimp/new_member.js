@@ -14,7 +14,7 @@ export default async (req, res) => {
             try {
                 const data = await client.lists.addListMember("94d9b6e312", {
                     email_address: req.body.email,
-                    status: "pending",
+                    status: "subscribed",
                 })
                 return res.status(200).json({success: true, data});
             } catch (e) {
