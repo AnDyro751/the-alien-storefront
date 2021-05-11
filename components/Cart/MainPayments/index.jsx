@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import React, {useContext, useEffect, useState} from "react";
-import StripeElements from "../../StripeElements";
 // import PaypalElements from "../../PaypalElements";
 import dynamic from 'next/dynamic';
 import {OrderContext} from "../../../src/stores/useOrder";
-
+// import StripeElements from "../../StripeElements";
+const StripeElements = dynamic(() => import("../../StripeElements"), {ssr: false})
 const PaypalElements = dynamic(() => import("../../PaypalElements"), {ssr: false})
 const MainPayments = ({data}) => {
     //
